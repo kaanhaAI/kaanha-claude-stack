@@ -14,6 +14,8 @@ Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-pro
 /plugin install kaanha-dev@kaanha-stack
 ```
 
+**📚 Full documentation: [Knowledge Base](docs/README.md)** — getting started, the push gate, the dev hub, troubleshooting, FAQ.
+
 **Requirements:** Python 3.8+ on PATH — the push gate is a ~200-line stdlib script, zero pip packages.
 (Windows: `winget install Python.Python.3.12` · macOS: `brew install python` · Linux: `sudo apt install python3`.)
 The ship workflow checks this first and refuses to push until Python is present — without it the gate can't protect you.

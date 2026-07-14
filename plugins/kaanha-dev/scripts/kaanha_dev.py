@@ -163,6 +163,7 @@ def cmd_sync():
                 "runtimeExecutable": p["runtimeExecutable"],
                 "runtimeArgs": p["runtimeArgs"],
                 **({"port": p["port"]} if p.get("port") else {}),
+                **({"env": p["env"]} if p.get("env") else {}),
             } for p in entries],
         }
         target_dir = os.path.join(path, ".claude")
