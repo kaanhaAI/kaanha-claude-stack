@@ -11,6 +11,14 @@ in full - the gate exists so that no step can be silently skipped.
 
 ## Workflow
 
+0. **Environment mandate.** Run `python --version` first. If it fails,
+   STOP the workflow: tell the user the gate and this pipeline require
+   Python 3 on PATH (Windows: `winget install Python.Python.3.12` ·
+   macOS: `brew install python` · Linux: `sudo apt install python3`) and
+   do not push until it is installed. Without Python the gate fails open
+   and unverified pushes would slip through silently - refusing here is
+   the mandate.
+
 1. **Scope the change.** `git status` and `git diff` (or
    `git diff main...HEAD` for a branch). Restate in one sentence what this
    change is supposed to do. If mixed unrelated work is staged, tell the

@@ -14,6 +14,31 @@ Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-pro
 /plugin install kaanha-dev@kaanha-stack
 ```
 
+**Requirements:** Python 3.8+ on PATH — the push gate is a ~200-line stdlib script, zero pip packages.
+(Windows: `winget install Python.Python.3.12` · macOS: `brew install python` · Linux: `sudo apt install python3`.)
+The ship workflow checks this first and refuses to push until Python is present — without it the gate can't protect you.
+
+## Quick start — your first 60 seconds
+
+```text
+$ git push
+kaanha-gate BLOCKED this push: HEAD a1b2c3d has not passed the ship workflow.
+  1. Run the project's tests and make sure they pass.
+  2. Run the kaanha-verifier agent on the diff and resolve real findings.
+  3. After the FINAL commit, approve the gate.
+
+> ship it
+  kaanha-tester    npm test ............ 14/14 PASS (added test/api.test.js — your handler had zero coverage)
+  kaanha-verifier  3 findings .......... fixed, re-verified over live HTTP
+  kaanha-gate      approved a1b2c3d
+
+$ git push
+   e4f5g6h..a1b2c3d  main -> main
+```
+
+That blocked first push is the product: quality stops being advice and becomes a locked door.
+Any commit after approval re-locks the gate automatically. Escape hatch (yours, not the model's): `KAANHA_GATE=off`.
+
 ## Original plugins (ours)
 
 ### kaanha-quality — verified pushes only
