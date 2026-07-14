@@ -1,5 +1,7 @@
 # kaanha-claude-stack
 
+> **One prompt in, verified working product out — humans only at consent, credentials, and the ship decision.**
+
 **One marketplace that turns Claude Code into a self-managing engineering environment** — a hard quality gate in front of every `git push`, one registry for every dev server on your machine, and curated pointers to the best open-source skills.
 
 Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-project Windows dev machine.
