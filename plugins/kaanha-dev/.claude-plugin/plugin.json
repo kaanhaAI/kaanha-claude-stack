@@ -1,0 +1,11 @@
+{
+  "name": "kaanha-dev",
+  "description": "Centralized dev-server hub: one registry for every project's dev server with unique ports, a stdlib Python launcher (list/start/stop/status/logs from anywhere), auto-enrollment of new projects, and sync-generated per-project .claude/launch.json files.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Kaanha Tech"
+  },
+  "license": "MIT",
+  "keywords": ["dev-server", "launcher", "registry", "preview", "ports"],
+  "skills": "./skills/"
+}

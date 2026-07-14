@@ -1,0 +1,71 @@
+{
+  "name": "kaanha-stack",
+  "owner": {
+    "name": "Kaanha Tech"
+  },
+  "metadata": {
+    "description": "Kaanha Tech's Claude Code stack: original quality-gate and dev-hub plugins, plus curated pointers to the best open-source skills.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "kaanha-quality",
+      "source": "./plugins/kaanha-quality",
+      "description": "Verify-and-test-before-push pipeline: a deterministic PreToolUse gate that blocks git push until the ship workflow has approved the exact HEAD commit, plus tester and adversarial-verifier agents orchestrated by a /ship skill.",
+      "category": "quality"
+    },
+    {
+      "name": "kaanha-dev",
+      "source": "./plugins/kaanha-dev",
+      "description": "Centralized dev-server hub: one registry with unique ports for every project, a stdlib launcher (start/stop/status/logs from anywhere), auto-enrollment of new projects, and generated per-project launch.json files.",
+      "category": "productivity"
+    },
+    {
+      "name": "ponytail",
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      },
+      "description": "By Dietrich Gebert - lazy-senior-dev YAGNI persona with a 7-rung decision ladder. Curated pointer to the upstream project.",
+      "category": "productivity"
+    },
+    {
+      "name": "impeccable",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/pbakaus/impeccable.git",
+        "path": "plugin"
+      },
+      "description": "By Paul Bakaus - design lifecycle toolkit with 23 commands and 44 deterministic anti-slop detectors. Curated pointer to the upstream project.",
+      "category": "design"
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
+      },
+      "description": "By nextlevelbuilder - offline BM25-searchable design database (styles, palettes, font pairings, stack guidelines). Curated pointer to the upstream project; we recommend enabling just the flagship skill.",
+      "category": "design"
+    },
+    {
+      "name": "andrej-karpathy-skills",
+      "source": {
+        "source": "github",
+        "repo": "multica-ai/andrej-karpathy-skills"
+      },
+      "description": "By forrestchang - four coding principles distilled from Karpathy's LLM-pitfall observations. Curated pointer to the upstream project.",
+      "category": "workflow"
+    },
+    {
+      "name": "mempalace",
+      "source": {
+        "source": "github",
+        "repo": "MemPalace/mempalace",
+        "ref": "develop"
+      },
+      "description": "By the MemPalace project - local-first verbatim AI memory with semantic search and a temporal knowledge graph. Curated pointer to the upstream project; requires 'uv tool install mempalace'.",
+      "category": "memory"
+    }
+  ]
+}

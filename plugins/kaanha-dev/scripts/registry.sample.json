@@ -1,0 +1,32 @@
+{
+  "$comment": "Copy to registry.json next to kaanha_dev.py. Single source of truth for all dev servers; assign each project a unique port. Run 'sync' after edits, 'scan' to auto-enroll new projects.",
+  "projectsRoot": "C:\\path\\to\\your\\repos",
+  "ignore": ["some-fork-you-dont-run"],
+  "projects": [
+    {
+      "name": "my-next-app",
+      "path": "C:\\path\\to\\your\\repos\\my-next-app",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "-p", "3001"],
+      "port": 3001,
+      "note": "Next.js - port pinned via -p"
+    },
+    {
+      "name": "my-vite-app",
+      "path": "C:\\path\\to\\your\\repos\\my-vite-app",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "port": 5173,
+      "note": "Vite default port"
+    },
+    {
+      "name": "my-node-api",
+      "path": "C:\\path\\to\\your\\repos\\my-node-api",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3005,
+      "env": { "PORT": "3005" },
+      "note": "reads PORT from env"
+    }
+  ]
+}
