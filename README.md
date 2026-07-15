@@ -87,6 +87,11 @@ instruction set into every session, in every project — current or new:
 Install the plugin once and the working discipline follows you everywhere.
 Don't want it? Delete the `SessionStart` block from `hooks/hooks.json`.
 
+**New install?** Your first session prints a one-time "what you now have"
+notice, and `/kaanha-tour` (or just asking *"give me the kaanha tour"*)
+walks you through everything installed — with a live demo of the push
+gate turning away an unapproved push.
+
 ### kaanha-dev — one hub for every dev server
 
 Stop juggling ports and per-project configs:

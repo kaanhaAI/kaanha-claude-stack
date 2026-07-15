@@ -1,7 +1,7 @@
-﻿{
+{
   "name": "kaanha-quality",
   "description": "Kaanha Tech's verify-and-test-before-push pipeline: a deterministic PreToolUse gate that blocks git push until the ship workflow has run, plus kaanha-tester (runs the project's real checks, fills test gaps) and kaanha-verifier (adversarial pre-push review) agents orchestrated by the /ship skill.",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": {
     "name": "Kaanha Tech"
   },

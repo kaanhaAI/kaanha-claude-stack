@@ -1,5 +1,16 @@
 # Changelog
 
+## marketplace 1.6.0 — 2026-07-15
+
+- **kaanha-quality 1.5.0 — onboarding.** New users no longer discover the
+  stack piece by piece: the first session after install prints a one-time
+  "what you now have" notice (push gate, mandate, /ship pipeline, update
+  notifications), and a new **/kaanha-tour** skill gives a two-minute
+  guided walkthrough of everything installed — including a live demo of
+  the push gate refusing an unapproved push. The notice shows exactly
+  once per machine; delete
+  `~/.claude/plugins/data/kaanha-quality/welcomed.json` to see it again.
+
 ## marketplace 1.5.1 — 2026-07-15
 
 - **Fix: site-sentinel template died before probing anything.** The runner's
