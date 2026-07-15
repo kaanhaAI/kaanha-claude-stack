@@ -1,5 +1,15 @@
 # Changelog
 
+## marketplace 1.7.1 — 2026-07-15
+
+- **One-command install.** `scripts/install-all.ps1` (Windows) and
+  `scripts/install-all.sh` (macOS/Linux) register the marketplace and
+  install the four kaanha plugins + watch-skill via the `claude` CLI —
+  add `-WithCurated` / `--with-curated` for the third-party pointers.
+  The README also documents the zero-command team option:
+  `extraKnownMarketplaces` + `enabledPlugins` in a project's
+  `.claude/settings.json` auto-installs everything on folder trust.
+
 ## marketplace 1.7.0 — 2026-07-15
 
 - **kaanha-agents published — the eleven autonomous squads.** The fleet

@@ -8,11 +8,46 @@ Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-pro
 
 ## Install
 
+**One command (terminal, needs the `claude` CLI on PATH):**
+
+```
+# Windows
+powershell -ExecutionPolicy Bypass -Command "iwr -useb https://raw.githubusercontent.com/kaanhaAI/kaanha-claude-stack/main/scripts/install-all.ps1 -OutFile $env:TEMP\kaanha-install.ps1; & $env:TEMP\kaanha-install.ps1"
+
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/kaanhaAI/kaanha-claude-stack/main/scripts/install-all.sh | bash
+```
+
+Installs the marketplace + the four kaanha plugins + watch-skill; add
+`-WithCurated` / `--with-curated` for the third-party pointers too.
+(Prefer to read before you run? The scripts are ~40 lines each in
+[`scripts/`](scripts/).)
+
+**Or inside Claude Code, piece by piece:**
+
 ```
 /plugin marketplace add kaanhaAI/kaanha-claude-stack
 /plugin install kaanha-quality@kaanha-stack
 /plugin install kaanha-dev@kaanha-stack
 /plugin install kaanha-agents@kaanha-stack   # optional: autonomous squads — read docs/agents.md first
+```
+
+**Or for a whole team — one file, zero commands:** commit this to your
+project's `.claude/settings.json`; everyone who opens the project gets
+prompted once to trust it, then the plugins auto-install:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "kaanha-stack": { "source": { "source": "github", "repo": "kaanhaAI/kaanha-claude-stack" } }
+  },
+  "enabledPlugins": {
+    "kaanha-quality@kaanha-stack": true,
+    "kaanha-dev@kaanha-stack": true,
+    "kaanha-agents@kaanha-stack": true,
+    "kaanha-ugc@kaanha-stack": true
+  }
+}
 ```
 
 **📚 Full documentation: [Knowledge Base](docs/README.md)** — getting started, the push gate, the dev hub, troubleshooting, FAQ.
