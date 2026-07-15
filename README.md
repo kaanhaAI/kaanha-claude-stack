@@ -16,6 +16,15 @@ Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-pro
 
 **📚 Full documentation: [Knowledge Base](docs/README.md)** — getting started, the push gate, the dev hub, troubleshooting, FAQ.
 
+**Stay updated (do this once, right after installing):** open `/plugin` → **Marketplaces** → `kaanha-stack` → **Enable auto-update**. Claude Code then checks for new versions shortly after each startup and prompts you to `/reload-plugins` when something updated — no manual steps ever again. Prefer manual control? Pull updates any time with:
+
+```
+/plugin marketplace update kaanha-stack
+/plugin update kaanha-quality@kaanha-stack
+```
+
+Releases are versioned (see [CHANGELOG.md](CHANGELOG.md)) — **Watch → Custom → Releases** on this repo if you want GitHub to email you when a new version ships.
+
 **Requirements:** Python 3.8+ on PATH — the push gate is a ~200-line stdlib script, zero pip packages.
 (Windows: `winget install Python.Python.3.12` · macOS: `brew install python` · Linux: `sudo apt install python3`.)
 The ship workflow checks this first and refuses to push until Python is present — without it the gate can't protect you.
