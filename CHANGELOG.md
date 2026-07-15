@@ -6,6 +6,14 @@ corresponds to a version bump you can pull with
 `/plugin marketplace update kaanha-stack` + `/plugin update <plugin>@kaanha-stack`
 (or automatically, with auto-update enabled for this marketplace).
 
+## kaanha-quality 1.3.0 — 2026-07-15
+
+- **Self-notifying update check** (SessionStart hook): compares the installed
+  version against this repo's published manifest and prints an in-session
+  notice when a newer version exists. One HTTPS GET per 24h max, 3s timeout,
+  silent on any failure, stdlib only; no data about you or your repos is
+  sent. Opt out with `KAANHA_UPDATE_CHECK=off` or by removing the hook line.
+
 ## kaanha-quality 1.2.0 — 2026-07-15
 
 - **Session mandate**: the SessionStart hook now injects the full working

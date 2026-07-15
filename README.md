@@ -16,7 +16,7 @@ Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-pro
 
 **📚 Full documentation: [Knowledge Base](docs/README.md)** — getting started, the push gate, the dev hub, troubleshooting, FAQ.
 
-**Stay updated (do this once, right after installing):** open `/plugin` → **Marketplaces** → `kaanha-stack` → **Enable auto-update**. Claude Code then checks for new versions shortly after each startup and prompts you to `/reload-plugins` when something updated — no manual steps ever again. Prefer manual control? Pull updates any time with:
+**Staying updated — since v1.3.0 the plugin notifies you itself:** at session start it compares your installed version against this repo's latest (one HTTPS GET per day max, 3-second timeout, silent on any failure, Python stdlib only — nothing about you or your repo is sent) and tells you in-session when an update exists. Opt out with `KAANHA_UPDATE_CHECK=off`. For hands-free installs on top of that, open `/plugin` → **Marketplaces** → `kaanha-stack` → **Enable auto-update** — Claude Code then pulls new versions shortly after startup and prompts `/reload-plugins`. Prefer manual control? Pull updates any time with:
 
 ```
 /plugin marketplace update kaanha-stack
