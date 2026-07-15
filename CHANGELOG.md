@@ -1,5 +1,25 @@
 # Changelog
 
+## marketplace 1.7.5 — 2026-07-15
+
+- **install-all proven end-to-end in CI.** New `install-e2e` GitHub
+  workflow (manual dispatch + weekly + on installer changes): a clean
+  runner installs the Claude Code CLI via npm, runs the install-all
+  script exactly as the README instructs — `install-all.sh` on Linux,
+  `install-all.ps1` through `powershell.exe` on Windows — and fails red
+  unless all five core plugins actually register in `claude plugin
+  list`. No Anthropic login is needed for plugin commands (git-clone +
+  local-cache operations; noted honestly in the workflow header).
+- **Fix: install-all.ps1 could die on a stderr warning.** Windows
+  PowerShell 5.1 wraps native stderr into throwing ErrorRecords when
+  the stream is redirected; with the script's `$ErrorActionPreference
+  = "Stop"`, a mere "already registered" notice from `claude plugin
+  marketplace add` killed the installer before it installed anything.
+  Now `Continue`, with failures still tracked per plugin.
+- **Fix: both install-all scripts now exit non-zero when any plugin
+  fails to install** (previously they printed the failure list but
+  exited 0, so scripted/CI use could not detect a partial install).
+
 ## marketplace 1.7.4 — 2026-07-15
 
 - **kaanha-quality 1.5.2 — push gate hardened + fully behavior-verified.**

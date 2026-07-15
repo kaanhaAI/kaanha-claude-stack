@@ -21,7 +21,10 @@ curl -fsSL https://raw.githubusercontent.com/kaanhaAI/kaanha-claude-stack/main/s
 Installs the marketplace + the four kaanha plugins + watch-skill; add
 `-WithCurated` / `--with-curated` for the third-party pointers too.
 (Prefer to read before you run? The scripts are ~40 lines each in
-[`scripts/`](scripts/).)
+[`scripts/`](scripts/).) Both scripts are exercised end-to-end in CI —
+[![install-e2e](https://github.com/kaanhaAI/kaanha-claude-stack/actions/workflows/install-e2e.yml/badge.svg?branch=main)](https://github.com/kaanhaAI/kaanha-claude-stack/actions/workflows/install-e2e.yml)
+— a clean Linux and Windows runner installs the CLI, runs them, and
+asserts every plugin registers.
 
 **Or inside Claude Code, piece by piece:**
 

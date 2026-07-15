@@ -14,7 +14,11 @@
 # create scheduled tasks, launch a browser, and make local commits.
 
 param([switch]$WithCurated)
-$ErrorActionPreference = "Stop"
+# NOT "Stop": Windows PowerShell 5.1 wraps a native command's stderr into
+# throwing ErrorRecords whenever the stream is redirected (2>$null here,
+# or any CI/host capture) — with EAP=Stop a mere warning on stderr would
+# kill the installer. Failures are tracked explicitly via $LASTEXITCODE.
+$ErrorActionPreference = "Continue"
 
 $env:Path = $env:Path + ";" +
             [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" +
@@ -44,8 +48,8 @@ foreach ($p in $list) {
 Write-Host ""
 if ($failed.Count) {
     Write-Host "[!!] Failed: $($failed -join ', ') - re-run this script or install those via /plugin." -ForegroundColor Yellow
-} else {
-    Write-Host "[ok] Everything installed." -ForegroundColor Green
+    exit 1
 }
+Write-Host "[ok] Everything installed." -ForegroundColor Green
 Write-Host "Start (or restart) a Claude Code session: your first session prints a"
 Write-Host "one-time 'what you now have' notice - then say 'give me the kaanha tour'."

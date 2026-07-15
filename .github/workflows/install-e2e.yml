@@ -1,0 +1,131 @@
+# install-all end-to-end — proof the one-command client install works.
+#
+# Exists because the install-all scripts were only ever docs-verified:
+# no `claude` CLI on the dev machine, so no end-to-end run had ever
+# happened (the audit's "honest debt #2"). This job is the missing
+# client machine: a clean runner installs the Claude Code CLI via npm,
+# runs the install-all script exactly as the README tells users to,
+# and fails RED unless every core plugin actually registers in
+# `claude plugin list`. Linux runs install-all.sh, Windows runs
+# install-all.ps1 through powershell.exe — both client paths covered.
+#
+# Auth note (checked 2026-07-15 against code.claude.com/docs): the
+# `claude plugin marketplace add / install / list` commands are
+# git-clone + local-cache operations. No Anthropic login or API key is
+# documented as required, and Anthropic's own GitHub Actions docs
+# install plugins in CI this way. The docs never promise it outright,
+# so if a future CLI version starts demanding auth here, the assert
+# step prints the CLI output honestly and the job-level timeout stops
+# any interactive prompt from hanging the runner forever.
+
+name: install-e2e
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "33 3 * * 1" # weekly, Monday 03:33 UTC
+  push:
+    paths:
+      - "scripts/install-all.sh"
+      - "scripts/install-all.ps1"
+      - ".github/workflows/install-e2e.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux-bash
+          - os: windows-latest
+            label: windows-powershell
+    name: install (${{ matrix.label }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install the Claude Code CLI
+        shell: bash
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude --version
+
+      # Run the script the way the README tells clients to. stdin is
+      # closed so any unexpected interactive prompt fails fast instead
+      # of hanging until the timeout.
+      - name: Run install-all.sh (client path, Linux/macOS)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: bash scripts/install-all.sh < /dev/null
+
+      - name: Run install-all.ps1 (client path, Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: powershell -ExecutionPolicy Bypass -File scripts\install-all.ps1 < NUL
+
+      # The actual e2e assertion: the plugins must REGISTER, not just
+      # install without error. Grep the CLI's own view of the world.
+      - name: Assert all core plugins registered
+        shell: bash
+        run: |
+          set -u
+          listing="$(claude plugin list 2>&1)" || {
+            echo "::error::claude plugin list itself failed — output below."
+            echo "$listing"
+            exit 1
+          }
+          echo "$listing"
+          missing=()
+          for p in kaanha-quality kaanha-dev kaanha-agents kaanha-ugc watch-skill; do
+            echo "$listing" | grep -q "$p" || missing+=("$p")
+          done
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::Installed but NOT registered: ${missing[*]}"
+            if echo "$listing" | grep -qiE "log ?in|authenticat|api key|oauth"; then
+              echo "::error::Output smells like an auth wall — plugin commands may now require login in CI. Update the header note in this workflow."
+            fi
+            exit 1
+          fi
+          echo "[ok] All five core plugins registered on a clean machine."
+
+      # Bonus check with the official validator, on the four kaanha
+      # plugins in this checkout. Skipped (not failed) if the installed
+      # CLI version has no validate subcommand — its CLI docs are thin.
+      - name: Validate plugin manifests with the official CLI
+        shell: bash
+        run: |
+          if ! claude plugin validate --help >/dev/null 2>&1; then
+            echo "This CLI version has no 'plugin validate' — skipping (validate-plugins.yml still guards manifests)."
+            exit 0
+          fi
+          for d in plugins/kaanha-quality plugins/kaanha-dev plugins/kaanha-agents plugins/kaanha-ugc; do
+            echo "[..] validate $d"
+            claude plugin validate "$d"
+          done
+
+      # Optional push alert. Dormant until the repo has TELEGRAM_* secrets.
+      # Static text + run URL only — never interpolate CLI output.
+      - name: Telegram alert (optional)
+        if: failure()
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        shell: bash
+        run: |
+          if [ -z "$TG_TOKEN" ] || [ -z "$TG_CHAT" ]; then
+            echo "Telegram secrets not set - skipping push alert."
+            exit 0
+          fi
+          curl -sSf --max-time 10 "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d chat_id="${TG_CHAT}" \
+            --data-urlencode text="🔴 install-e2e (${{ matrix.label }}): the one-command client install FAILED on a clean runner. Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            > /dev/null || echo "telegram send failed (non-blocking)"

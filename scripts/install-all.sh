@@ -37,8 +37,8 @@ done
 echo ""
 if [ "${#failed[@]}" -gt 0 ]; then
   echo "[!!] Failed: ${failed[*]} - re-run this script or install those via /plugin."
-else
-  echo "[ok] Everything installed."
+  exit 1
 fi
+echo "[ok] Everything installed."
 echo "Start (or restart) a Claude Code session: your first session prints a"
 echo "one-time 'what you now have' notice - then say 'give me the kaanha tour'."
