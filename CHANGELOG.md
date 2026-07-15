@@ -1,5 +1,14 @@
 # Changelog
 
+## marketplace 1.5.1 — 2026-07-15
+
+- **Fix: site-sentinel template died before probing anything.** The runner's
+  `bash -e` killed the script on its first statement: `read` from a
+  process-substituted `curl -w` returns 1 because curl emits no trailing
+  newline. Every run failed red in ~0.5s with zero output — looking exactly
+  like a site outage. Now reads via a here-string. If you copied
+  site-sentinel.yml before 1.5.1, re-copy it.
+
 ## marketplace 1.5.0 — 2026-07-15
 
 - **kaanha-quality 1.4.0**: new session-mandate working rule — *use the
