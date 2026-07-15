@@ -1,4 +1,4 @@
-﻿# Site Sentinel (cloud template) â€” scheduled uptime + route health.
+# Site Sentinel (cloud template) â€” scheduled uptime + route health.
 # Copy into <repo>/.github/workflows/, replace <...>, commit, push.
 # No secrets: curls your routes, opens/updates an issue on failure.
 

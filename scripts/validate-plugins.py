@@ -51,6 +51,21 @@ def err(msg):
 
 
 def load_json(path, what):
+    # BOM is fatal, not tolerable: Claude Code's own JSON parser rejects
+    # U+FEFF ("JSON Parse error: Unrecognized token"), so a BOM'd manifest
+    # installs as "corrupt" / silently dies. Caught live by install-e2e
+    # on 2026-07-15 after this validator's utf-8-sig read let two BOM'd
+    # plugin.json files sail through green.
+    try:
+        with open(path, "rb") as f:
+            if f.read(3) == b"\xef\xbb\xbf":
+                err(
+                    f"{what}: file has a UTF-8 BOM - Claude Code's JSON "
+                    f"parser rejects it and the plugin dies at install. "
+                    f"Rewrite the file without BOM: {path}"
+                )
+    except OSError:
+        pass  # unreadable files are reported by the open() below
     try:
         with open(path, encoding="utf-8-sig") as f:
             return json.load(f)

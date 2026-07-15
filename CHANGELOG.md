@@ -1,5 +1,21 @@
 # Changelog
 
+## marketplace 1.7.6 — 2026-07-15
+
+- **CRITICAL FIX — kaanha-quality and kaanha-agents could not install:
+  UTF-8 BOM in their plugin.json.** Caught by the new install-e2e
+  workflow on its very first run (both OSes): `claude plugin install`
+  rejects a BOM'd manifest as "corrupt" (`JSON Parse error: Unrecognized
+  token '﻿'`), so the one-command install delivered only 3 of 5
+  plugins — without the quality gate itself. The BOM (a Windows
+  PowerShell write artifact) is stripped from both manifests (and from
+  two workflow YAMLs for hygiene). If your install printed
+  "corrupt manifest" for these two plugins, re-run install-all.
+- **validate-plugins now fails red on BOM.** The validator read files
+  with `utf-8-sig`, tolerating exactly what Claude Code's parser
+  rejects — a green guard in front of an uninstallable plugin. It now
+  checks the raw bytes of every JSON file it validates.
+
 ## marketplace 1.7.5 — 2026-07-15
 
 - **install-all proven end-to-end in CI.** New `install-e2e` GitHub

@@ -1,4 +1,4 @@
-﻿# Plugin manifest validation â€” the anti-silent-death gate.
+# Plugin manifest validation â€” the anti-silent-death gate.
 #
 # Exists because an invalid plugin.json field ("agents": "./agents/")
 # made Claude Code skip two entire plugins with no error â€” including the
