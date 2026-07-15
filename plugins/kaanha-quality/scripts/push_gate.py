@@ -60,7 +60,10 @@ def main():
         sys.exit(0)
 
     try:
-        payload = json.load(sys.stdin)
+        # lstrip BOM: Windows shells (PowerShell pipes) prepend U+FEFF,
+        # and a gate that fails open on parse errors must not be that
+        # easy to trip. Real hook payloads are clean UTF-8 either way.
+        payload = json.loads(sys.stdin.read().lstrip("\ufeff"))
     except Exception:
         sys.exit(0)  # malformed input: never break unrelated tool calls
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## marketplace 1.7.4 — 2026-07-15
+
+- **kaanha-quality 1.5.2 — push gate hardened + fully behavior-verified.**
+  Found during a claims-vs-reality audit: a payload with a UTF-8 BOM (as
+  Windows shells produce when piping) failed JSON parsing, and the gate's
+  fail-open clause allowed the push. Real Claude Code hook payloads are
+  clean UTF-8, but a gate should not fail open that easily — stdin is now
+  BOM-stripped. Full matrix verified live: unapproved push blocks (exit
+  2), --approve then push passes, dry-runs and non-push commands pass.
+
 ## marketplace 1.7.3 — 2026-07-15
 
 - **Guarantee against silent plugin death.** New `validate-plugins`
