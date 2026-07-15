@@ -12,6 +12,7 @@ Built and battle-tested by [Kaanha Tech](https://kaanha.tech) across a multi-pro
 /plugin marketplace add kaanhaAI/kaanha-claude-stack
 /plugin install kaanha-quality@kaanha-stack
 /plugin install kaanha-dev@kaanha-stack
+/plugin install kaanha-agents@kaanha-stack   # optional: autonomous squads — read docs/agents.md first
 ```
 
 **📚 Full documentation: [Knowledge Base](docs/README.md)** — getting started, the push gate, the dev hub, troubleshooting, FAQ.

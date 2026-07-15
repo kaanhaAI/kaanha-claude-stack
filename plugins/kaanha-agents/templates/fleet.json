@@ -1,0 +1,34 @@
+{
+  "$comment": "TEMPLATE — copy to <your-ops-repo>/dev/fleet.json during fleet bootstrap and fill in YOUR targets. Every kaanha-agents squad reads this file. Absolute paths are fine: this file describes ONE machine's fleet. Replace every <...> placeholder. Delete this comment when done.",
+  "$ownership": "By listing a site or repo here you attest you OWN it or have written permission to test it. The security-auditor and site-sentinel squads probe these targets; they will skip any target whose ownership is unattested. Never add a third party's site.",
+  "sites": [
+    {
+      "name": "<your-site-name>",
+      "url": "https://<your-domain>",
+      "routes": ["/", "/about", "/contact"],
+      "repo": "<absolute path to the site's repo>",
+      "brandSpec": "BRAND.md or STYLE.md — the file holding your voice/design rules, or omit",
+      "notes": "Framework/host + anything the squads should know. Name any public API/agent endpoint so squads probe it gently.",
+      "e2e": {
+        "command": "<the repo's e2e command, e.g. npm run test:e2e — omit this whole block to skip flow-testing>",
+        "baseUrlEnv": "PLAYWRIGHT_BASE_URL",
+        "localPreview": "<build + preview command, e.g. npm run build && npm run preview>",
+        "production": false
+      },
+      "flows": [
+        "describe each critical user flow in one line — the flow-tester reports any with no covering spec"
+      ]
+    }
+  ],
+  "repos": [
+    "<absolute path to each repo the fleet should watch/audit>"
+  ],
+  "market": {
+    "business": "<one line: what the business does>",
+    "positioning": "<the wedge / differentiator>",
+    "buyer": "<who buys>",
+    "region": "<primary market>"
+  },
+  "backlog": "<absolute path to builder-backlog.md — copy the template beside this file>",
+  "reports": "<absolute path to the directory where squads write their HTML reports>"
+}

@@ -7,6 +7,7 @@ Everything you need to install, use, and troubleshoot the stack.
 | [Getting started](getting-started.md) | You just installed (or are about to) |
 | [The push gate & ship workflow](push-gate.md) | Your first `git push` got blocked — **by design**, start here |
 | [The dev hub](dev-hub.md) | You want one launcher for every dev server, with no port conflicts |
+| [Autonomous squads](agents.md) | You want unattended agents watching your sites and repos — **read before installing** |
 | [Curated plugins](curated-plugins.md) | You want the recommended companions (ponytail, impeccable, and friends) |
 | [Troubleshooting](troubleshooting.md) | Something isn't working |
 | [FAQ](faq.md) | Privacy, uninstalling, updates, per-repo opt-outs |

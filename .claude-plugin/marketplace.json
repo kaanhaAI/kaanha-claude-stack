@@ -4,8 +4,8 @@
     "name": "Kaanha Tech"
   },
   "metadata": {
-    "description": "Kaanha Tech's Claude Code stack: original quality-gate, dev-hub, and video creator-analytics plugins, plus curated pointers to the best open-source skills.",
-    "version": "1.6.0"
+    "description": "Kaanha Tech's Claude Code stack: original quality-gate, dev-hub, video creator-analytics, and autonomous-squad plugins, plus curated pointers to the best open-source skills.",
+    "version": "1.7.0"
   },
   "plugins": [
     {
@@ -19,6 +19,12 @@
       "source": "./plugins/kaanha-dev",
       "description": "Centralized dev-server hub: one registry with unique ports for every project, a stdlib launcher (start/stop/status/logs from anywhere), auto-enrollment of new projects, and generated per-project launch.json files.",
       "category": "productivity"
+    },
+    {
+      "name": "kaanha-agents",
+      "source": "./plugins/kaanha-agents",
+      "description": "Eleven autonomous squads that run on local schedules and file self-updating HTML reports: code-guardian, daily-ops, design-warden, growth-marketer, site-sentinel (uptime), repo-night-watch (dependency/advisory audit), code-reviewer (nightly diff), security-auditor (defensive, your own assets only), growth-scout (market research), overnight-builder (one backlog task per night on a builder/* branch, never pushed), flow-tester (Playwright e2e in real Chromium). Config-driven via a bundled fleet.json template; say 'set up the fleet' to bootstrap. Runs while the Claude app is open. See docs/agents.md before installing \u2014 it creates scheduled tasks, launches a browser, and makes local commits.",
+      "category": "automation"
     },
     {
       "name": "ponytail",
