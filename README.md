@@ -61,6 +61,12 @@ PreToolUse hook (exit 2 blocks, approval file compared against HEAD).
 Works on Bash and PowerShell, fails safe, dry-runs pass through.
 User-only escape hatch via `KAANHA_GATE=off`.
 
+Also ships a **deliverables mandate**: a SessionStart hook that tells Claude,
+in every project, to produce reports and deliverables as self-contained HTML
+files updated in place (never dated copies), delivered rendered. Install the
+plugin once and the house style follows you everywhere. Don't want it?
+Delete the `SessionStart` block from `hooks/hooks.json`.
+
 ### kaanha-dev — one hub for every dev server
 
 Stop juggling ports and per-project configs:
