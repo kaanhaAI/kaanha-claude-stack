@@ -1,5 +1,13 @@
 # Changelog
 
+## marketplace 1.4.2 — 2026-07-15
+
+- **Fix: cloud-reasoning template crashed on large diffs.** `git log -p`
+  piped into `head -c` was SIGPIPE-killed once the 24h diff passed 120KB,
+  failing the step under Actions' strict bash flags — i.e. the nightly
+  review died exactly on busy days. Now writes to a file and truncates
+  from it. If you copied cloud-reasoning.yml from 1.4.1, re-copy it.
+
 ## marketplace 1.4.1 — 2026-07-15
 
 - **Cloud fleet templates published** (`templates/workflows/`): site-sentinel

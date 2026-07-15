@@ -46,7 +46,12 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
-          DIFF=$(git log -p --since="${SINCE}" | head -c 120000)
+          # Write to a file, THEN truncate. Piping git log straight into
+          # head -c gets git SIGPIPE-killed once output passes 120KB, and
+          # under Actions' bash -e -o pipefail that fails the whole step -
+          # i.e. the review crashes exactly on busy days.
+          git log -p --since="${SINCE}" > /tmp/gitlog.txt
+          DIFF=$(head -c 120000 /tmp/gitlog.txt)
           if [ -z "$DIFF" ]; then
             echo "empty=1" >> "$GITHUB_OUTPUT"
           else
