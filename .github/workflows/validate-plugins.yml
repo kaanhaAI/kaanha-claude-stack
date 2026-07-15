@@ -1,0 +1,48 @@
+﻿# Plugin manifest validation â€” the anti-silent-death gate.
+#
+# Exists because an invalid plugin.json field ("agents": "./agents/")
+# made Claude Code skip two entire plugins with no error â€” including the
+# push gate itself. This workflow fails RED on any push that would land
+# a manifest Claude Code cannot load, so that class of bug can never
+# reach main silently again.
+
+name: validate-plugins
+
+on:
+  push:
+    paths:
+      - "plugins/**"
+      - ".claude-plugin/**"
+      - "scripts/validate-plugins.py"
+      - ".github/workflows/validate-plugins.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate all plugin manifests
+        run: python scripts/validate-plugins.py
+
+      # Optional push alert. Dormant until the repo has TELEGRAM_* secrets.
+      # Static text + run URL only â€” never interpolate validator output.
+      - name: Telegram alert (optional)
+        if: failure()
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        shell: bash
+        run: |
+          if [ -z "$TG_TOKEN" ] || [ -z "$TG_CHAT" ]; then
+            echo "Telegram secrets not set - skipping push alert."
+            exit 0
+          fi
+          curl -sSf --max-time 10 "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d chat_id="${TG_CHAT}" \
+            --data-urlencode text="ðŸ”´ validate-plugins: a plugin manifest on main would NOT load in Claude Code. Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            > /dev/null || echo "telegram send failed (non-blocking)"

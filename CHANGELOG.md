@@ -1,5 +1,15 @@
 # Changelog
 
+## marketplace 1.7.3 — 2026-07-15
+
+- **Guarantee against silent plugin death.** New `validate-plugins`
+  GitHub workflow + `scripts/validate-plugins.py`: every push touching a
+  plugin now validates all manifests against the loading rules that bit
+  us in 1.7.2 (agents field must be .md file paths or omitted, hooks
+  JSON must parse, skills need SKILL.md frontmatter, versions present).
+  An unloadable manifest fails the push red — it can no longer land on
+  main unnoticed. Forks inherit the same protection.
+
 ## marketplace 1.7.2 — 2026-07-15
 
 - **CRITICAL FIX — kaanha-quality 1.5.1 / kaanha-agents 1.2.1 silently
