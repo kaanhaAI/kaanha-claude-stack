@@ -1,5 +1,15 @@
 # Changelog
 
+## marketplace 1.5.0 — 2026-07-15
+
+- **kaanha-quality 1.4.0**: new session-mandate working rule — *use the
+  browser wherever the task needs one*. Verifying UI, reading live pages
+  or dashboards, and driving web flows should happen in the available
+  browser tooling (in-app browser pane, or Claude in Chrome when a
+  logged-in session is required) instead of being described back as
+  manual steps for the user. Payments, credentials, and irreversible or
+  public actions still require explicit confirmation.
+
 ## marketplace 1.4.3 — 2026-07-15
 
 - **cloud-reasoning**: provider errors (quota, bad key, unknown model) now

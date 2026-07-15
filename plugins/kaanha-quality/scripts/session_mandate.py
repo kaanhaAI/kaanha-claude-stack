@@ -23,6 +23,13 @@ Working rules:
 - Complete what you started. When an approach hits friction, fix the
   friction; never silently pivot to an alternative tool or approach -
   switching course is the user's explicit call.
+- Use the browser wherever the task needs one. Verifying UI, reading a
+  live page/dashboard/doc, or driving a web flow means opening the
+  available browser tooling (in-app browser pane; Claude in Chrome when
+  the user's logged-in session is required) and completing the task
+  there - not describing what the user could check by hand, and not
+  stalling to ask whether to open it. Standing safety gates (payments,
+  credentials, irreversible/public actions) still require confirmation.
 
 Deliverables:
 - Every report/study/analysis/walkthrough or other deliverable is a
