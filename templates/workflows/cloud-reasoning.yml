@@ -1,0 +1,119 @@
+# Cloud Reasoning Squad (Wave 2) — provider-agnostic template.
+#
+# Replaces the Claude-native claude-code-action for the reasoning squads.
+# Routes to Gemini / OpenAI / Grok (Anthropic dropped for cost). Gathers the
+# last-24h diff, sends it to the chosen provider, and files findings as a
+# GitHub issue. Pick provider + model per squad from dev/fleet.json ->
+# cloud_models. Copy into <repo>/.github/workflows/, set PROVIDER + MODEL,
+# and add the matching API-key secret.
+#
+# Secrets required (add ONE, matching PROVIDER):
+#   GEMINI_API_KEY  (provider: gemini)   |  OPENAI_API_KEY (provider: openai)
+#   XAI_API_KEY     (provider: grok)
+#
+# NOTE: this is a single-call "read the diff -> report" harness — right for
+# code-reviewer / security-auditor / research squads. The overnight-builder
+# (autonomous multi-file code generation) needs a real agent loop, not this;
+# keep that one on Claude Code or wire a dedicated agent framework.
+
+name: cloud-reasoning
+
+on:
+  schedule:
+    - cron: "6 3 * * *" # nightly 03:06 UTC — adjust per squad
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  PROVIDER: openai # gemini | openai | grok  — set per squad (fleet.json cloud_models)
+  MODEL: gpt-5.6-terra # the model id for that provider
+  SQUAD: code-reviewer # used in the issue title/label
+  SINCE: "24 hours ago" # diff window
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so --since works
+
+      - name: Gather the diff
+        id: diff
+        shell: bash
+        run: |
+          set -uo pipefail
+          DIFF=$(git log -p --since="${SINCE}" | head -c 120000)
+          if [ -z "$DIFF" ]; then
+            echo "empty=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "empty=0" >> "$GITHUB_OUTPUT"
+            printf '%s' "$DIFF" > /tmp/diff.txt
+          fi
+
+      - name: Ask the model
+        if: steps.diff.outputs.empty == '0'
+        id: llm
+        shell: bash
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          set -uo pipefail
+          SYSTEM="You are the ${SQUAD} for this repository. Review the diff below. Report EVERY issue you find with a confidence (low/med/high) and a severity (info/minor/major/critical), each anchored to a file and line. Do not filter for importance — a downstream step ranks them. If nothing is wrong, say 'no findings'."
+          PROMPT="$(cat /tmp/diff.txt)"
+
+          # jq builds JSON safely (handles quotes/newlines/backticks in the diff).
+          case "$PROVIDER" in
+            openai|grok)
+              if [ "$PROVIDER" = "openai" ]; then
+                URL="https://api.openai.com/v1/chat/completions"; KEY="$OPENAI_API_KEY"
+              else
+                URL="https://api.x.ai/v1/chat/completions"; KEY="$XAI_API_KEY"
+              fi
+              BODY=$(jq -n --arg m "$MODEL" --arg s "$SYSTEM" --arg p "$PROMPT" \
+                '{model:$m, messages:[{role:"system",content:$s},{role:"user",content:$p}]}')
+              OUT=$(curl -sS "$URL" -H "Authorization: Bearer $KEY" -H "content-type: application/json" -d "$BODY")
+              REPORT=$(printf '%s' "$OUT" | jq -r '.choices[0].message.content // ("ERROR: " + (.error.message // "no response"))')
+              ;;
+            gemini)
+              URL="https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}"
+              BODY=$(jq -n --arg s "$SYSTEM" --arg p "$PROMPT" \
+                '{system_instruction:{parts:[{text:$s}]}, contents:[{parts:[{text:$p}]}]}')
+              OUT=$(curl -sS "$URL" -H "content-type: application/json" -d "$BODY")
+              REPORT=$(printf '%s' "$OUT" | jq -r '.candidates[0].content.parts[0].text // ("ERROR: " + (.error.message // "no response"))')
+              ;;
+            *)
+              REPORT="ERROR: unknown PROVIDER '$PROVIDER'"
+              ;;
+          esac
+
+          {
+            echo 'report<<KAANHA_LLM_EOF'
+            printf '%s' "$REPORT"
+            echo
+            echo 'KAANHA_LLM_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: File findings issue
+        if: steps.diff.outputs.empty == '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = ${{ toJSON(steps.llm.outputs.report) }};
+            if (!report || /^no findings/i.test(report.trim())) return;
+            const squad = process.env.SQUAD;
+            const body = `**${squad}** (${process.env.PROVIDER}/${process.env.MODEL}) reviewed the last-24h diff:\n\n${report}\n\n_Automated by \`.github/workflows/cloud-reasoning.yml\`._`;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: "open", labels: squad });
+            if (existing.data.length) {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number, body });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo,
+                title: `${squad}: findings`, body, labels: [squad] });
+            }

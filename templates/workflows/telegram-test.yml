@@ -1,0 +1,36 @@
+# Telegram channel test — verifies the fleet's push-alert channel.
+#
+# Run it manually from the Actions tab after adding the two repo secrets
+# (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID). Success = a test message lands
+# in the configured chat/group. Unlike the dormant alert steps in the real
+# workflows, this one FAILS LOUDLY when something is misconfigured — that
+# is its whole job.
+
+name: telegram-test
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send test message
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        shell: bash
+        run: |
+          if [ -z "$TG_TOKEN" ]; then echo "::error::TELEGRAM_BOT_TOKEN secret is not set"; exit 1; fi
+          if [ -z "$TG_CHAT" ]; then echo "::error::TELEGRAM_CHAT_ID secret is not set"; exit 1; fi
+          # -f: an API error (bad token, wrong chat id, bot not in the group)
+          # fails the run. curl's error line names the HTTP code, never the URL.
+          curl -sSf --max-time 10 "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+            -d chat_id="${TG_CHAT}" \
+            --data-urlencode text="✅ kaanha fleet: Telegram alert channel is connected (repo: ${{ github.repository }}). Health failures will arrive here." \
+            -o response.json
+          echo "Telegram API accepted the message:"
+          cat response.json

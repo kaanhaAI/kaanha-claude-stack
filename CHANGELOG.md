@@ -1,5 +1,16 @@
 # Changelog
 
+## marketplace 1.4.1 — 2026-07-15
+
+- **Cloud fleet templates published** (`templates/workflows/`): site-sentinel
+  (6-hourly uptime), dependency-audit (weekly advisories), cloud-reasoning
+  (provider-agnostic nightly LLM diff review — Gemini/OpenAI/Grok), and
+  telegram-test. All hardened against report-content injection.
+- **Telegram push alerts**: every failure-filing template carries an optional
+  alert step (dormant until TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID secrets
+  exist). `scripts/connect-telegram.ps1` sets both secrets on all your repos
+  from one prompt, with live token validation and group-id auto-detection.
+
 ## marketplace 1.4.0 — 2026-07-15
 
 - **Video stack published**: new original plugin **kaanha-ugc 0.1.0**

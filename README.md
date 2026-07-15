@@ -132,6 +132,28 @@ Also pairs beautifully with [hallmark](https://github.com/Nutlope/hallmark) by H
 
 The marketplace entries for these point at the **upstream repos**, so you always get the authors' latest — full credit to them; this repo just curates and composes.
 
+## Cloud fleet templates + phone alerts
+
+[`templates/workflows/`](templates/workflows/) holds copy-in GitHub Actions
+that run whether your machine is on or off:
+
+- **site-sentinel.yml** — 6-hourly uptime + route health for any site; files
+  a GitHub issue on failure
+- **dependency-audit.yml** — weekly high/critical advisory scan; files a
+  labelled issue
+- **cloud-reasoning.yml** — provider-agnostic nightly LLM review of the
+  last-24h diff (Gemini / OpenAI / Grok; bring one API key)
+- **telegram-test.yml** — one-click verification of the alert channel
+
+Every failure-filing template carries an optional **Telegram push alert**:
+create a bot with @BotFather, add it to your group, then run
+[`scripts/connect-telegram.ps1`](scripts/connect-telegram.ps1) — it validates
+the token live, auto-detects your group's chat id, and sets the two secrets
+on every repo you name. From then on failures land on your phone. All
+templates are hardened against report-content injection (toJSON assigned to
+a variable, never spliced into template literals; unique heredoc delimiters;
+alert messages are static text + run link only).
+
 ## The pattern this repo demonstrates
 
 Skills are passive knowledge. The stack becomes autonomous when you add:
