@@ -1,5 +1,18 @@
 # Changelog
 
+## marketplace 1.7.0 — 2026-07-15
+
+- **kaanha-agents published — the eleven autonomous squads.** The fleet
+  layer joins the public catalog: code-guardian, daily-ops, design-warden,
+  growth-marketer, growth-scout, site-sentinel, repo-night-watch,
+  code-reviewer, security-auditor, overnight-builder, and flow-tester —
+  config-driven from a bundled fleet.json template, running on local
+  schedules while the Claude app is open, each rewriting its own HTML
+  report. Read **docs/agents.md before installing** — this plugin creates
+  scheduled tasks, launches a browser, and makes local commits. Cloud
+  forms of the mechanical squads remain available as the top-level
+  workflow templates.
+
 ## marketplace 1.6.0 — 2026-07-15
 
 - **kaanha-quality 1.5.0 — onboarding.** New users no longer discover the
