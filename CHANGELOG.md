@@ -1,5 +1,12 @@
 # Changelog
 
+## marketplace 1.4.3 — 2026-07-15
+
+- **cloud-reasoning**: provider errors (quota, bad key, unknown model) now
+  fail the run red instead of filing bogus "findings" issues on every cron.
+- **telegram-test**: the Telegram API response body is no longer printed to
+  run logs (it echoed the chat id and group metadata).
+
 ## marketplace 1.4.2 — 2026-07-15
 
 - **Fix: cloud-reasoning template crashed on large diffs.** `git log -p`

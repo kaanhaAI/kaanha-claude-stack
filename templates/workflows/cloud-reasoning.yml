@@ -110,6 +110,12 @@ jobs:
         with:
           script: |
             const report = ${{ toJSON(steps.llm.outputs.report) }};
+            // Provider errors are operational failures, not findings -
+            // fail the run red instead of filing a bogus issue nightly.
+            if (report && /^ERROR:/.test(report.trim())) {
+              core.setFailed("provider error (not filed as findings): " + report.slice(0, 300));
+              return;
+            }
             if (!report || /^no findings/i.test(report.trim())) return;
             const squad = process.env.SQUAD;
             const body = `**${squad}** (${process.env.PROVIDER}/${process.env.MODEL}) reviewed the last-24h diff:\n\n${report}\n\n_Automated by \`.github/workflows/cloud-reasoning.yml\`._`;
