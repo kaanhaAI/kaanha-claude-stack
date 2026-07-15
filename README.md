@@ -78,6 +78,9 @@ instruction set into every session, in every project — current or new:
 - **One step at a time** — complete and confirm each step before the next
 - **Complete what you started** — fix friction instead of silently pivoting
   to an alternative approach
+- **Use the browser wherever the task needs one** — verify UI and drive web
+  flows in the available browser tooling instead of describing manual steps
+  (payments, credentials, and irreversible actions still confirm first)
 - **Deliverables are self-contained HTML** — updated in place (never dated
   copies), delivered rendered
 
