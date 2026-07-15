@@ -94,6 +94,28 @@ Stop juggling ports and per-project configs:
 - `sync` — generates each project's `.claude/launch.json` so Claude's browser preview works natively
 - Windows PATH wrapper included (Claude sessions don't inherit your interactive shell's PATH — this bites everyone eventually)
 
+### kaanha-ugc — video creator analytics
+
+Turn any video into a creator report: hook strength, retention/pacing
+heuristics, scroll-stop moments, CTA placement, best-clip picks per platform,
+and ready-to-post captions — every claim timestamp-anchored, no invented
+metrics, delivered as one self-contained HTML report.
+
+It's an **analysis layer**, engine-agnostic by design: pair it with
+**watch-skill** (recommended — persistent video memory + cross-library
+search, local-first, `$0` offline mode) or **claude-video** (lightweight
+watch-once). Both are curated in this marketplace:
+
+```
+/plugin install kaanha-ugc@kaanha-stack
+/plugin install watch-skill@kaanha-stack
+```
+
+The engine needs one-time machine setup (Python 3.11+; ffmpeg and yt-dlp
+auto-bootstrap) — run `/setup-watch-skill` once after installing and its
+doctor handles the rest. kaanha-ugc self-announces when it's ready and
+refuses to fabricate an analysis without real frames + a real transcript.
+
 ## Curated pointers (not ours — install straight from their authors)
 
 | Plugin | Author | What it does |
@@ -103,6 +125,8 @@ Stop juggling ports and per-project configs:
 | [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder | Offline searchable design database |
 | [andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) | forrestchang | Four principles against classic LLM coding failures |
 | [mempalace](https://github.com/MemPalace/mempalace) | MemPalace | Local-first verbatim AI memory |
+| [watch-skill](https://github.com/oxbshw/watch-skill) | oxbshw | Persistent video memory + cross-library search — the recommended kaanha-ugc engine |
+| [claude-video](https://github.com/bradautomates/claude-video) | bradautomates | `/watch` — frames + transcript for Claude's own vision, watch-once |
 
 Also pairs beautifully with [hallmark](https://github.com/Nutlope/hallmark) by Hassan El Mghari (Together AI) — anti-slop page building with structural variety (`npx skills add nutlope/hallmark`).
 

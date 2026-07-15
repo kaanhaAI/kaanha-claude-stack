@@ -1,5 +1,14 @@
 # Changelog
 
+## marketplace 1.4.0 — 2026-07-15
+
+- **Video stack published**: new original plugin **kaanha-ugc 0.1.0**
+  (creator analytics — hook/retention/scroll-stop/CTA/best-clips analysis,
+  timestamp-anchored, self-contained HTML report) plus curated pointers to
+  its engines: **watch-skill** by oxbshw (recommended; persistent video
+  memory, local-first) and **claude-video** by bradautomates (lightweight
+  watch-once). Full credit to the upstream authors.
+
 All client-visible changes to the kaanha-stack plugins. Update detection in
 Claude Code is keyed on each plugin's `version` field — every entry here
 corresponds to a version bump you can pull with

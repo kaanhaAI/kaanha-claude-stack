@@ -4,8 +4,8 @@
     "name": "Kaanha Tech"
   },
   "metadata": {
-    "description": "Kaanha Tech's Claude Code stack: original quality-gate and dev-hub plugins, plus curated pointers to the best open-source skills.",
-    "version": "1.3.0"
+    "description": "Kaanha Tech's Claude Code stack: original quality-gate, dev-hub, and video creator-analytics plugins, plus curated pointers to the best open-source skills.",
+    "version": "1.4.0"
   },
   "plugins": [
     {
@@ -66,6 +66,31 @@
       },
       "description": "By the MemPalace project - local-first verbatim AI memory with semantic search and a temporal knowledge graph. Curated pointer to the upstream project; requires 'uv tool install mempalace'.",
       "category": "memory"
+    },
+    {
+      "name": "kaanha-ugc",
+      "source": "./plugins/kaanha-ugc",
+      "description": "Creator-analytics layer on top of a video engine (watch-skill or claude-video): hook strength, retention/pacing heuristics, scroll-stop moments, CTA placement, best-clip picks per platform, and platform captions/posts. Engine-agnostic; every claim timestamp-anchored, no invented metrics; outputs a self-contained HTML report.",
+      "category": "media"
+    },
+    {
+      "name": "watch-skill",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/oxbshw/watch-skill.git",
+        "path": "adapters/claude-skill"
+      },
+      "description": "By oxbshw - persistent video memory for agents: analyse a video once, then query it again and search across your whole library. Local-first (local Whisper = offline, $0) with optional cloud vision keys; ships /setup-watch-skill for one-shot machine setup (Python 3.11+; ffmpeg/yt-dlp auto-bootstrap). Curated pointer to the upstream MIT project; the recommended engine for kaanha-ugc.",
+      "category": "media"
+    },
+    {
+      "name": "claude-video",
+      "source": {
+        "source": "github",
+        "repo": "bradautomates/claude-video"
+      },
+      "description": "By bradautomates - a /watch command that turns any video URL or local file into timestamped frames + a transcript for Claude's own vision to read. Lightweight watch-once alternative engine for kaanha-ugc. Curated pointer to the upstream MIT project.",
+      "category": "media"
     }
   ]
 }

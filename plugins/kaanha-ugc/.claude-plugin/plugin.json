@@ -1,0 +1,21 @@
+{
+  "name": "kaanha-ugc",
+  "description": "Creator-analytics layer on top of a video engine (watch-skill or claude-video). Turns frames + transcript + timeline into a UGC report: hook strength, retention/pacing heuristics, scroll-stop moments, CTA placement, best-clip picks per platform, and platform-specific captions/posts. Engine-agnostic; outputs a self-contained HTML report.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Kaanha Tech"
+  },
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "ugc",
+    "creator",
+    "social",
+    "analytics",
+    "reels",
+    "tiktok",
+    "shorts"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json"
+}
