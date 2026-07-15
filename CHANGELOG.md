@@ -1,5 +1,16 @@
 # Changelog
 
+## marketplace 1.7.2 — 2026-07-15
+
+- **CRITICAL FIX — kaanha-quality 1.5.1 / kaanha-agents 1.2.1 silently
+  failed to load.** Both manifests declared `"agents": "./agents/"`, but
+  the plugin spec requires the agents field to list individual .md files
+  (or be omitted for auto-discovery) — a directory value makes Claude Code
+  skip the ENTIRE plugin with no error: no push gate, no session mandate,
+  no /ship, no squads. If your gate never blocked a push or the squads
+  never appeared, this was why. The field is now omitted (default
+  auto-discovery). Update both plugins, then restart your session.
+
 ## marketplace 1.7.1 — 2026-07-15
 
 - **One-command install.** `scripts/install-all.ps1` (Windows) and

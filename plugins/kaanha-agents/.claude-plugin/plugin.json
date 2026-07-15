@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "kaanha-agents",
   "description": "Kaanha Tech's autonomous squads: the original four (code-guardian nightly code health, daily-ops morning digest, design-warden weekly design audit, growth-marketer weekly SEO/competitive check) plus the config-driven fleet seven (site-sentinel 6-hourly uptime, repo-night-watch nightly dep/advisory audit, code-reviewer nightly diff review, security-auditor weekly defensive audit, growth-scout weekly market research, overnight-builder one backlog task per night on a builder/* branch, flow-tester nightly Playwright e2e in real Chromium). Fleet targets live in dev/fleet.json; every squad rewrites its HTML report in docs/reports/.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Kaanha Tech"
   },
@@ -12,6 +12,5 @@
     "routines",
     "reports"
   ],
-  "skills": "./skills/",
-  "agents": "./agents/"
+  "skills": "./skills/"
 }
