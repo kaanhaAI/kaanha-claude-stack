@@ -78,15 +78,28 @@ jobs:
         shell: bash
         run: |
           set -u
-          listing="$(claude plugin list 2>&1)" || {
+          # Prefer --json: names appear as quoted values ("name" or
+          # "name@marketplace"), so a description that merely MENTIONS
+          # another plugin (kaanha-ugc's mentions watch-skill) cannot
+          # false-pass the check. Fall back to the plain listing with a
+          # word-boundary match if this CLI version lacks --json.
+          if listing="$(claude plugin list --json 2>&1)"; then
+            mode=json
+          elif listing="$(claude plugin list 2>&1)"; then
+            mode=text
+          else
             echo "::error::claude plugin list itself failed — output below."
             echo "$listing"
             exit 1
-          }
+          fi
           echo "$listing"
           missing=()
           for p in kaanha-quality kaanha-dev kaanha-agents kaanha-ugc watch-skill; do
-            echo "$listing" | grep -q "$p" || missing+=("$p")
+            if [ "$mode" = json ]; then
+              echo "$listing" | grep -qE "\"$p(@|\")" || missing+=("$p")
+            else
+              echo "$listing" | grep -qE "(^|[^A-Za-z0-9-])$p([^A-Za-z0-9-]|$)" || missing+=("$p")
+            fi
           done
           if [ "${#missing[@]}" -gt 0 ]; then
             echo "::error::Installed but NOT registered: ${missing[*]}"
