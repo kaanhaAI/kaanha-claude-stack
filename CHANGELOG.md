@@ -1,5 +1,22 @@
 # Changelog
 
+## marketplace 1.9.0 — 2026-07-16
+
+- **kaanha-quality 1.6.0 — the mandate learns.** New sixth working rule:
+  *record what bites you.* When a gate, test, verifier, squad, or the
+  user catches a **real** defect, the lesson goes into project memory
+  before moving on — what was believed, what was true, the rule that
+  prevents it — and then the higher-value question gets asked: **can a
+  machine enforce this?** A check that fails red beats a lesson that must
+  be remembered; recurring lessons are unbuilt guards.
+  This rule is why this changelog reads the way it does. Every CRITICAL
+  FIX above (the silent-death manifest, BOM-at-install, duplicate hooks,
+  green-checks-that-lie) was a lesson that became a validator check —
+  previously that promotion happened because someone noticed. Now it is
+  standard procedure.
+
+
+
 ## marketplace 1.8.1 — 2026-07-16
 
 - **kaanha-quality 1.5.3 / kaanha-ugc 0.1.1 — hooks failed to load from

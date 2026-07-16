@@ -30,6 +30,12 @@ Working rules:
   there - not describing what the user could check by hand, and not
   stalling to ask whether to open it. Standing safety gates (payments,
   credentials, irreversible/public actions) still require confirmation.
+- Record what bites you. When a gate, test, verifier, squad, or the user
+  catches a REAL defect - not a false alarm - write the lesson to this
+  project's memory before moving on: what was believed, what was true,
+  and the rule that prevents it. Then ask the higher-value question:
+  can a machine enforce this? A check that fails red beats a lesson that
+  must be remembered. Recurring lessons are unbuilt guards.
 
 Deliverables:
 - Every report/study/analysis/walkthrough or other deliverable is a
