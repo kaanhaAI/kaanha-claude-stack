@@ -114,7 +114,7 @@ jobs:
             cat cli-stderr.log
           fi
           missing=()
-          for p in kaanha-quality kaanha-dev kaanha-agents kaanha-ugc watch-skill; do
+          for p in kaanha-quality kaanha-dev kaanha-agents kaanha-factory kaanha-3d-web kaanha-ugc watch-skill; do
             if [ "$mode" = json ]; then
               echo "$listing" | grep -qE "\"$p(@|\")" || missing+=("$p")
             else
@@ -159,11 +159,12 @@ jobs:
             fi
             exit 1
           fi
-          echo "[ok] All five core plugins registered, enabled, and error-free on a clean machine."
+          echo "[ok] All seven core plugins registered, enabled, and error-free on a clean machine."
 
-      # Bonus check with the official validator, on the four kaanha
-      # plugins in this checkout. Skipped (not failed) if the installed
-      # CLI version has no validate subcommand — its CLI docs are thin.
+      # Bonus check with the official validator, on the kaanha plugins
+      # in this checkout (those with a local ./plugins/ dir; watch-skill is
+      # a curated upstream pointer, not a local plugin). Skipped (not
+      # failed) if the installed CLI version has no validate subcommand.
       - name: Validate plugin manifests with the official CLI
         shell: bash
         run: |
@@ -171,7 +172,7 @@ jobs:
             echo "This CLI version has no 'plugin validate' — skipping (validate-plugins.yml still guards manifests)."
             exit 0
           fi
-          for d in plugins/kaanha-quality plugins/kaanha-dev plugins/kaanha-agents plugins/kaanha-ugc; do
+          for d in plugins/kaanha-quality plugins/kaanha-dev plugins/kaanha-agents plugins/kaanha-factory plugins/kaanha-3d-web plugins/kaanha-ugc; do
             echo "[..] validate $d"
             claude plugin validate "$d"
           done

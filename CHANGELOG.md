@@ -1,5 +1,18 @@
 # Changelog
 
+## marketplace 1.11.1 — 2026-07-16
+
+- **One-command install now delivers the whole stack.** The install-all
+  scripts had drifted: they installed five plugins and missed the two
+  newest — **kaanha-factory** and **kaanha-3d-web** — so a new user's
+  single command silently shipped an incomplete stack. Both scripts, the
+  README's zero-command team snippet (`enabledPlugins`), and the
+  install-e2e CI (which now asserts all **seven** core plugins register
+  and load error-free on a clean Linux + Windows runner) are updated
+  together, so this cannot drift unnoticed again — the CI fails red if
+  the installer and the catalog disagree.
+
+
 ## marketplace 1.11.0 — 2026-07-16
 
 - **New plugin: kaanha-factory 1.2.0 — build-from-scratch lifecycle.**

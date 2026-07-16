@@ -48,6 +48,8 @@ prompted once to trust it, then the plugins auto-install:
     "kaanha-quality@kaanha-stack": true,
     "kaanha-dev@kaanha-stack": true,
     "kaanha-agents@kaanha-stack": true,
+    "kaanha-factory@kaanha-stack": true,
+    "kaanha-3d-web@kaanha-stack": true,
     "kaanha-ugc@kaanha-stack": true
   }
 }
