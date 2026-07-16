@@ -120,6 +120,23 @@ def check_plugin(pdir):
                 err(f"{name}: hooks entry {h!r} is not an existing file")
             else:
                 load_json(hp, f"{name}: hooks file {h}")
+                # Declaring the DEFAULT hooks path is not redundant-but-
+                # harmless: Claude Code auto-loads hooks/hooks.json, then
+                # rejects the manifest's duplicate reference with
+                # "Hook load failed: Duplicate hooks file detected" and
+                # records it against the plugin. Caught live by install-e2e
+                # 2026-07-16 on kaanha-quality (the push gate itself) and
+                # kaanha-ugc. manifest.hooks is for ADDITIONAL files only.
+                if os.path.abspath(hp) == os.path.abspath(
+                    os.path.join(pdir, "hooks", "hooks.json")
+                ):
+                    err(
+                        f"{name}: hooks entry {h!r} points at the DEFAULT "
+                        f"hooks/hooks.json, which Claude Code already loads "
+                        f"automatically - the duplicate reference fails to "
+                        f"load ('Duplicate hooks file detected'). Omit the "
+                        f"'hooks' field, or use it only for ADDITIONAL files."
+                    )
 
     # default hooks location must parse even when undeclared
     default_hooks = os.path.join(pdir, "hooks", "hooks.json")

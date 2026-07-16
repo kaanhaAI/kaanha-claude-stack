@@ -29,6 +29,14 @@ on:
       - "scripts/install-all.sh"
       - "scripts/install-all.ps1"
       - ".github/workflows/install-e2e.yml"
+      # Manifests and the catalog decide whether a plugin can install at
+      # all. Both bugs this job has caught (the BOM, the duplicate hooks
+      # field) were plugin.json changes — which, until now, did not
+      # trigger it: the run that caught them had to be launched by hand.
+      # The client's install path is exactly what a manifest change can
+      # break, so it re-proves on every one.
+      - "plugins/**/.claude-plugin/plugin.json"
+      - ".claude-plugin/marketplace.json"
 
 permissions:
   contents: read
@@ -83,16 +91,28 @@ jobs:
           # another plugin (kaanha-ugc's mentions watch-skill) cannot
           # false-pass the check. Fall back to the plain listing with a
           # word-boundary match if this CLI version lacks --json.
-          if listing="$(claude plugin list --json 2>&1)"; then
+          #
+          # stderr is captured to a FILE, never merged into the payload:
+          # one update notice or node DeprecationWarning on stderr would
+          # make jq fail to parse below, and (without set -e) the
+          # load-error check would silently skip — a false green inside
+          # the very check that exists to catch false greens.
+          if listing="$(claude plugin list --json 2>cli-stderr.log)"; then
             mode=json
-          elif listing="$(claude plugin list 2>&1)"; then
+          elif listing="$(claude plugin list 2>cli-stderr.log)"; then
             mode=text
+            echo "::warning::This CLI has no 'plugin list --json' — the per-plugin load-error check below CANNOT run."
           else
             echo "::error::claude plugin list itself failed — output below."
+            cat cli-stderr.log || true
             echo "$listing"
             exit 1
           fi
           echo "$listing"
+          if [ -s cli-stderr.log ]; then
+            echo "--- CLI stderr (captured separately, not parsed):"
+            cat cli-stderr.log
+          fi
           missing=()
           for p in kaanha-quality kaanha-dev kaanha-agents kaanha-ugc watch-skill; do
             if [ "$mode" = json ]; then
@@ -101,6 +121,37 @@ jobs:
               echo "$listing" | grep -qE "(^|[^A-Za-z0-9-])$p([^A-Za-z0-9-]|$)" || missing+=("$p")
             fi
           done
+
+          # "Installed" is not "working". The CLI reports per-plugin load
+          # failures in an errors[] array while still listing the plugin
+          # and exiting 0 — a hook that failed to load makes the gate a
+          # no-op, which is exactly the silent death this stack exists to
+          # prevent. A plugin listed WITH errors is a red build.
+          if [ "$mode" = json ]; then
+            # Fail CLOSED: if the check cannot run, the build is red, not
+            # green. jq ships on GitHub's ubuntu and windows images; a
+            # missing jq or unparseable JSON means we cannot verify, and
+            # "cannot verify" must never read as "verified".
+            command -v jq >/dev/null 2>&1 || {
+              echo "::error::jq is required to verify per-plugin load errors and is missing."
+              exit 1
+            }
+            echo "$listing" | jq -e . >/dev/null 2>&1 || {
+              echo "::error::'claude plugin list --json' did not return parseable JSON — cannot verify load errors."
+              exit 1
+            }
+            broken="$(echo "$listing" | jq -r '.[] | select((.errors // []) | length > 0) | "\(.id): \(.errors | join(" | "))"')"
+            if [ -n "$broken" ]; then
+              echo "::error::Plugins registered but reported LOAD ERRORS:"
+              echo "$broken"
+              exit 1
+            fi
+            disabled="$(echo "$listing" | jq -r '.[] | select(.enabled == false) | .id')"
+            if [ -n "$disabled" ]; then
+              echo "::error::Plugins installed but NOT enabled: $disabled"
+              exit 1
+            fi
+          fi
           if [ "${#missing[@]}" -gt 0 ]; then
             echo "::error::Installed but NOT registered: ${missing[*]}"
             if echo "$listing" | grep -qiE "log ?in|authenticat|api key|oauth"; then
@@ -108,7 +159,7 @@ jobs:
             fi
             exit 1
           fi
-          echo "[ok] All five core plugins registered on a clean machine."
+          echo "[ok] All five core plugins registered, enabled, and error-free on a clean machine."
 
       # Bonus check with the official validator, on the four kaanha
       # plugins in this checkout. Skipped (not failed) if the installed

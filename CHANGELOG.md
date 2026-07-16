@@ -1,5 +1,23 @@
 # Changelog
 
+## marketplace 1.8.1 — 2026-07-16
+
+- **kaanha-quality 1.5.3 / kaanha-ugc 0.1.1 — hooks failed to load from
+  the manifest.** Both manifests declared `"hooks": "./hooks/hooks.json"`,
+  but Claude Code loads that standard path automatically and then rejects
+  the manifest's duplicate reference: *"Hook load failed: Duplicate hooks
+  file detected"*, recorded against the plugin while the install still
+  reports success. The field is now omitted (auto-discovery), which is
+  what `manifest.hooks` was never meant to duplicate — it is for
+  ADDITIONAL hook files only.
+- **The e2e assert no longer trusts "installed".** `claude plugin list
+  --json` reports per-plugin load failures in an `errors[]` array while
+  still listing the plugin and exiting 0 — the first green install-e2e
+  run was green *while carrying this bug*. The workflow now fails red on
+  any non-empty `errors[]` or any `enabled: false`, and validate-plugins
+  rejects a `hooks` field pointing at the default path, so this class
+  cannot land on main again.
+
 ## marketplace 1.8.0 — 2026-07-16
 
 - **New plugin: kaanha-3d-web 0.1.0 — premium 3D web experiences.** Five
