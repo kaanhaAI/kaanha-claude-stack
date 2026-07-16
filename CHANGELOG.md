@@ -1,5 +1,29 @@
 # Changelog
 
+## marketplace 1.10.0 — 2026-07-16
+
+- **kaanha-quality 1.7.0 — the stack now learns, locally.** Two additions,
+  both local-only: **nothing is transmitted, ever** (this stack has no
+  telemetry, and the update check's promise — *"nothing about you or your
+  repo is sent"* — is not up for renegotiation). Your machine is the only
+  place your state lives.
+  - **Project state probe** (SessionStart): reads the project you are
+    actually in — anchored to the repo root, workspace-aware — and injects
+    only what changes what happens next: no test script anywhere (the gate
+    will have nothing to run), a UI project with no BRAND.md, a 3D/WebGL
+    project (detected by deps *or* a scenes/shaders directory, because a
+    hand-written raymarched scene has no three.js in package.json). Silent
+    when there is nothing worth saying. Opt out: `KAANHA_STATE_PROBE=off`.
+  - **Lessons store** (`scripts/lessons.py`): the machine-readable half of
+    the mandate's *record what bites you* rule. Memory files are prose, for
+    humans, for one folder; this is structured, tagged by project shape, and
+    **countable** — so a lesson recorded in one repo reaches the next repo of
+    the same shape, and a lesson recorded three times gets flagged for what
+    it is: an unbuilt guard. `lessons.py --stats` shows what keeps biting.
+    Re-phrasings group by similarity, so the counter cannot be fooled by
+    typing the same lesson three different ways. Opt out: `KAANHA_LESSONS=off`.
+
+
 ## marketplace 1.9.0 — 2026-07-16
 
 - **kaanha-quality 1.6.0 — the mandate learns.** New sixth working rule:

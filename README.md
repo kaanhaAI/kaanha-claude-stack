@@ -131,6 +131,24 @@ notice, and `/kaanha-tour` (or just asking *"give me the kaanha tour"*)
 walks you through everything installed — with a live demo of the push
 gate turning away an unapproved push.
 
+**It learns — on your machine, and only there.** Since 1.7.0 each session
+probes the project you are actually in (no test script for the gate to
+run? UI with no brand spec? a 3D scene?) and injects the lessons your
+projects have already earned. When a gate or the verifier catches a real
+defect, it is recorded to a local **lessons store** — tagged by project
+shape, so it reaches the *next* project like this one, and counted, so
+the third time something bites you the stack says the useful thing:
+*stop remembering this, build the check.*
+
+```
+python scripts/lessons.py --stats     # what keeps biting = what to automate
+```
+
+**No telemetry. None.** The store never leaves your disk; the only network
+call this plugin ever makes is fetching a public version manifest, and it
+sends nothing about you. Opt out of either half with `KAANHA_STATE_PROBE=off`
+or `KAANHA_LESSONS=off`.
+
 ### kaanha-dev — one hub for every dev server
 
 Stop juggling ports and per-project configs:

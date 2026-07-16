@@ -33,9 +33,14 @@ Working rules:
 - Record what bites you. When a gate, test, verifier, squad, or the user
   catches a REAL defect - not a false alarm - write the lesson to this
   project's memory before moving on: what was believed, what was true,
-  and the rule that prevents it. Then ask the higher-value question:
-  can a machine enforce this? A check that fails red beats a lesson that
-  must be remembered. Recurring lessons are unbuilt guards.
+  and the rule that prevents it. ALSO record it where the stack can count
+  it, tagging the shape of the project so it reaches the next one:
+    python "${CLAUDE_PLUGIN_ROOT}/scripts/lessons.py" --add
+      --rule "..." --believed "..." --was-true "..."
+      --tags svelte,ci --source verifier
+  Then ask the higher-value question: can a machine enforce this? A check
+  that fails red beats a lesson that must be remembered. Recurring lessons
+  are unbuilt guards - the store counts them and will tell you.
 
 Deliverables:
 - Every report/study/analysis/walkthrough or other deliverable is a
