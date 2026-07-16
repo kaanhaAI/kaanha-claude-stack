@@ -1,5 +1,33 @@
 # Changelog
 
+## marketplace 1.8.0 — 2026-07-16
+
+- **New plugin: kaanha-3d-web 0.1.0 — premium 3D web experiences.** Five
+  skills: **experience-director** (narrative → spatial metaphor → chapter
+  structure → build-ready brief), **threejs-builder** (engine decision
+  ladder from raymarched SDF to Three.js/Threlte/R3F, GLTF/Draco/KTX2
+  pipeline, draw-call budgets, and the hard floors — reduced-motion
+  poster, tab-hidden pause, DPR cap, synchronous first frame — in code
+  from commit one), **motion-director** (Lenis + GSAP/ScrollTrigger,
+  damped scroll-driven cameras, reduced-motion as a designed artifact,
+  zero-CLS discipline), **shader-artist** (GLSL pattern library with GPU
+  cost notes), **premium-review** (12-point ship gate accepting only
+  measured fps/CLS/Lighthouse, delegating a11y and SEO to the skills
+  that own them).
+  Seeded from a cinematic hero that shipped to production, so each
+  pattern carries the failure that produced it — most usefully,
+  shader-artist teaches the **dynamic** march loop bound because a
+  constant-bounded loop makes ANGLE's D3D backend unroll 72 inlined
+  copies of your SDF and stall fxc for minutes inside the first draw
+  call, which reads as a frozen tab on Windows Chrome.
+- **README: a "fork it, don't edit your install" section.** Plugin
+  updates overwrite the local plugin cache, so local edits are silently
+  destroyed — forking is the supported way to customize, and MIT means
+  you may fork, strip, rebrand, and ship commercially (upstream authors'
+  attribution on curated pointers stays).
+
+
+
 ## marketplace 1.7.6 — 2026-07-15
 
 - **CRITICAL FIX — kaanha-quality and kaanha-agents could not install:

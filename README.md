@@ -141,6 +141,30 @@ Stop juggling ports and per-project configs:
 - `sync` — generates each project's `.claude/launch.json` so Claude's browser preview works natively
 - Windows PATH wrapper included (Claude sessions don't inherit your interactive shell's PATH — this bites everyone eventually)
 
+### kaanha-3d-web — premium 3D web experiences
+
+The specialist layer for cinematic, award-grade sites. Five skills, not
+twenty role cards:
+
+| Skill | Owns |
+|---|---|
+| **experience-director** | Narrative → spatial metaphor → chapter structure → art direction → a build-ready brief (with the performance floors written in as contract) |
+| **threejs-builder** | Engine decision ladder (raymarched SDF ▸ vanilla Three.js ▸ Threlte/R3F), the proven component shape, GLTF/Draco/KTX2 pipeline, draw-call budgets, floors in code from commit one |
+| **motion-director** | Lenis + GSAP/ScrollTrigger choreography, damped scroll-driven cameras, reduced-motion as a designed artifact, zero-CLS discipline |
+| **shader-artist** | GLSL pattern library with GPU cost notes: hash noise/grain, SDF domain repetition, the budgeted march, the fresnel rim light kit |
+| **premium-review** | The 12-point ship gate — measured fps/CLS/Lighthouse only, every floor exercised, mobile reality; delegates a11y and SEO to the skills that own them |
+
+Seeded from a cinematic hero that shipped to production, so the patterns
+carry the failures that produced them — e.g. shader-artist teaches the
+**dynamic** march loop bound because the constant-bounded version makes
+ANGLE's D3D backend unroll 72 copies of your SDF and "compile" for
+minutes inside the first draw call, which your visitors experience as a
+frozen tab. That paragraph exists because it happened.
+
+```
+/plugin install kaanha-3d-web@kaanha-stack
+```
+
 ### kaanha-ugc — video creator analytics
 
 Turn any video into a creator report: hook strength, retention/pacing
@@ -162,6 +186,30 @@ The engine needs one-time machine setup (Python 3.11+; ffmpeg and yt-dlp
 auto-bootstrap) — run `/setup-watch-skill` once after installing and its
 doctor handles the rest. kaanha-ugc self-announces when it's ready and
 refuses to fabricate an analysis without real frames + a real transcript.
+
+## Customizing: fork it, don't edit your install
+
+This repo is the **upstream**. It is read-only to everyone but its
+maintainers — that is simply what a public GitHub repo is: you cannot
+push here, and a pull request is a proposal, never a write.
+
+**If you want to change how a plugin behaves, fork this repo.** Point
+your marketplace at your fork and you own your version:
+
+```
+/plugin marketplace add <your-user>/kaanha-claude-stack
+```
+
+Editing the files inside your local plugin cache (`~/.claude/plugins/…`)
+is not the way, and not because we forbid it — because **plugin updates
+overwrite that directory**. Every edit you make there is silently
+destroyed the next time you update, which is worse than not being able
+to edit at all. A fork survives updates and can pull ours in.
+
+MIT licensed: fork it, strip it, rebrand it, ship it commercially. The
+only obligation is keeping the copyright notice — and note the curated
+pointers below are **other authors' work** under their own licenses;
+their attribution stays regardless of what you do with ours.
 
 ## Curated pointers (not ours — install straight from their authors)
 

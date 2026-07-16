@@ -1,0 +1,19 @@
+{
+  "name": "kaanha-3d-web",
+  "description": "Premium 3D web experiences, end to end: experience direction (narrative-first briefs), scene building (raymarched SDF or Three.js/Threlte/R3F with hard performance floors), motion direction (GSAP/Lenis scroll choreography with reduced-motion fallbacks), a GLSL pattern library with GPU cost notes, and an award-grade ship review that only accepts measured numbers. Seeded from the kaanha.tech odyssey hero that shipped to production.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Kaanha Tech"
+  },
+  "license": "MIT",
+  "keywords": [
+    "3d",
+    "webgl",
+    "threejs",
+    "glsl",
+    "gsap",
+    "scroll",
+    "awwwards",
+    "creative"
+  ]
+}
