@@ -1,0 +1,11 @@
+{
+  "name": "kaanha-factory",
+  "description": "Product-factory lifecycle for greenfield builds: discovery through deployment, scaled to project size (S/M/L), with each phase delegated to the stack's enforced machinery (ship gate, squads, design skills, dev hub) instead of prose promises.",
+  "version": "1.2.0",
+  "author": {
+    "name": "Kaanha Tech"
+  },
+  "license": "MIT",
+  "keywords": ["lifecycle", "product", "factory", "greenfield", "gates"],
+  "skills": "./skills/"
+}

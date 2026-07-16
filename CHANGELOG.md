@@ -1,5 +1,21 @@
 # Changelog
 
+## marketplace 1.11.0 — 2026-07-16
+
+- **New plugin: kaanha-factory 1.2.0 — build-from-scratch lifecycle.**
+  The public catalog now has the greenfield orchestrator that was
+  internal-only: on a "build me an app/SaaS/bot/API from scratch"
+  request it runs discovery → research → architecture → plan → implement
+  → verify (via the ship gate) → document → deploy, scaled S/M/L. It
+  governs *which phases exist*; ponytail still governs the code within
+  them. Pairs with kaanha-3d-web (factory runs the lifecycle, 3d-web
+  builds the premium hero inside it) and every phase delegates to
+  enforced machinery — the gate, the squads, the design skills — instead
+  of prose promises. Its architecture phase now routes design work to the
+  right skill by need (reference vs critique vs page-structure vs
+  premium-3D) rather than lumping them together.
+
+
 ## marketplace 1.10.0 — 2026-07-16
 
 - **kaanha-quality 1.7.0 — the stack now learns, locally.** Two additions,

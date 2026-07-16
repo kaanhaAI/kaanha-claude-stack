@@ -183,6 +183,24 @@ frozen tab. That paragraph exists because it happened.
 /plugin install kaanha-3d-web@kaanha-stack
 ```
 
+### kaanha-factory — build-from-scratch, with gates instead of promises
+
+When you say *"build me an app / SaaS / bot / API / tool from scratch"*,
+factory runs the whole lifecycle — discovery → research → architecture →
+plan → implement → verify → document → deploy — scaled to the size of the
+ask (S/M/L). It decides *which phases must happen*; ponytail still decides
+how little code each one needs. Every phase hands off to enforced
+machinery (the ship gate, the tester/verifier agents, the design skills,
+the dev hub), so "done" means the acceptance criteria are demonstrably
+met and the gate approved the push — not that the model said so.
+
+Pairs with **kaanha-3d-web**: factory runs the lifecycle, 3d-web is the
+design lead when the brief is a premium/cinematic hero.
+
+```
+/plugin install kaanha-factory@kaanha-stack
+```
+
 ### kaanha-ugc — video creator analytics
 
 Turn any video into a creator report: hook strength, retention/pacing
