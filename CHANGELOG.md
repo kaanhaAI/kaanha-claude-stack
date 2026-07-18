@@ -1,5 +1,20 @@
 # Changelog
 
+## marketplace 1.16.0 — 2026-07-18
+
+- **kaanha-auto 0.2.0 — the per-project agents now LEARN, not just adapt.**
+  Every one of the eight agents gains project-scoped memory (`memory: project`,
+  stored in `.claude/agent-memory/<agent>/` and committable to the repo): it
+  reads what it has learned about the current project at the start of a run and
+  records durable patterns, conventions, and false-positive traps at the end, so
+  the same agent gets sharper on a codebase the more it runs there. Adaptation
+  (reading CLAUDE.md/stack each run) is now backed by memory that compounds. The
+  four read-only reviewers keep their memory even though Write/Edit are blocked
+  on product code (`disallowedTools: Write, Edit`) — Claude Code enables memory
+  I/O independently of the tool allowlist, so they learn without being able to
+  touch the codebase.
+
+
 ## marketplace 1.15.0 — 2026-07-18
 
 - **New plugin: kaanha-auto — an on-demand per-project agent suite (8th core

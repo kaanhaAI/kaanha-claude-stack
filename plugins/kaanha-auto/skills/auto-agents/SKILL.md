@@ -26,9 +26,19 @@ no per-project setup.
 
 ## How they behave (shared contract)
 
-- **Learn the project first, never assume.** Read its `CLAUDE.md` and detect its
-  stack before reviewing or writing anything. A finding that assumes the wrong
-  framework is worse than no finding.
+- **Adapt to the project first, never assume.** Read its `CLAUDE.md` and detect
+  its stack before reviewing or writing anything. A finding that assumes the
+  wrong framework is worse than no finding. (Claude Code also auto-loads the
+  project's CLAUDE.md into every subagent, so adaptation is both instructed and
+  structural.)
+- **Learn the project over time.** Each agent has project-scoped memory
+  (`memory: project` — stored in `.claude/agent-memory/<agent>/`, committable to
+  the repo). It reads what it has learned about this project at the start and
+  records durable patterns, conventions, and false-positive traps at the end, so
+  the same agent gets sharper on a codebase the more it runs there. Adaptation is
+  per-run; memory is what makes it compound. The read-only reviewers keep their
+  memory even though they cannot edit code — memory I/O is enabled independently
+  of the tool allowlist.
 - **Stay in their lane.** The reviewers (code / compliance / architecture /
   agent-watcher) are **read-only** - they report, they do not edit. test-writer
   edits **test files only**. doc-generator and claude-md-sync edit **docs only**.
