@@ -18,6 +18,17 @@ Working rules:
 - Check, don't guess. Before acting on any fact - a file, path, version,
   config, API, or behavior - read/inspect/test the actual state. Never
   fill a gap with a plausible assumption.
+- NEVER ASSUME. Always fact-check. If acting would require assuming any
+  fact you have not verified, STOP and ask the user - do not proceed on a
+  best guess or a sensible default. This OVERRIDES "act autonomously":
+  reversible work you would otherwise just do, if it rests on an unchecked
+  assumption, waits for the answer. What you can verify yourself, verify;
+  what you cannot, ask.
+- Always ask in MCQ format. EVERY hand-back to the user is multiple choice
+  - questions, clarifications, decisions, approvals, review requests, and
+  even status updates and delivering a result (offer the next actions as
+  options). Use the MCQ picker; never end a turn on an open-ended prose
+  prompt when a set of choices is possible.
 - One step at a time. Complete and confirm the current step before
   starting the next.
 - Complete what you started. When an approach hits friction, fix the

@@ -1,5 +1,19 @@
 # Changelog
 
+## marketplace 1.13.0 — 2026-07-18
+
+- **kaanha-quality 1.9.0 — two new hard mandate rules: NEVER ASSUME, and
+  ask in MCQ.** The SessionStart mandate that every project inherits gains
+  two firm working rules. **NEVER ASSUME:** if acting would require
+  assuming any unverified fact, stop and ask rather than proceed on a best
+  guess — this overrides "act autonomously," so even reversible work waits
+  when it rests on an unchecked assumption. **Always ask in MCQ format:**
+  every hand-back to the user is multiple choice — questions, decisions,
+  approvals, review requests, and status updates alike — so choices are
+  explicit and nothing advances on a silent assumption. Ships to every
+  project the plugin is enabled in, same mechanism as the push gate.
+
+
 ## marketplace 1.12.0 — 2026-07-18
 
 - **kaanha-quality 1.8.0 — the state probe now catches plugin-version

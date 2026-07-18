@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kaanha Tech's Claude Code stack: original quality-gate, dev-hub, video creator-analytics, premium-3D-web, and autonomous-squad plugins, plus curated pointers to the best open-source skills.",
-    "version": "1.12.0"
+    "version": "1.13.0"
   },
   "plugins": [
     {
