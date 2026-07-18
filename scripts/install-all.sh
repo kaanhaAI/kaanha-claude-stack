@@ -23,7 +23,7 @@ fi
 echo "[..] Registering the kaanha-stack marketplace"
 claude plugin marketplace add kaanhaAI/kaanha-claude-stack 2>/dev/null || true
 
-plugins=(kaanha-quality kaanha-dev kaanha-agents kaanha-factory kaanha-3d-web kaanha-ugc watch-skill)
+plugins=(kaanha-quality kaanha-dev kaanha-agents kaanha-auto kaanha-factory kaanha-3d-web kaanha-ugc watch-skill)
 if [ "${1:-}" = "--with-curated" ]; then
   plugins+=(ponytail impeccable ui-ux-pro-max andrej-karpathy-skills mempalace claude-video)
 fi

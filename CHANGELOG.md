@@ -1,5 +1,24 @@
 # Changelog
 
+## marketplace 1.15.0 — 2026-07-18
+
+- **New plugin: kaanha-auto — an on-demand per-project agent suite (8th core
+  plugin).** Eight reviewers that fire while you work in *any* repo and adapt
+  to it: **code-reviewer** (bugs/security/perf/convention adherence),
+  **compliance-reviewer** (the frameworks the project is actually subject to —
+  SOC 2 / GDPR / HIPAA / PCI / platform policy), **architecture-reviewer**
+  (boundaries, dependency direction, structural risk), **test-writer** (in the
+  project's own framework, test files only), **doc-generator** and
+  **claude-md-sync** (docs true to the code), **agent-watcher** (verifies the
+  other agents' findings against real code — catches hallucinations), and
+  **deploy-monitor** (diagnoses deploy/build failures on whatever platform the
+  project uses, proposes a PR, never deploys unattended). Every one reads the
+  current project's CLAUDE.md, stack, and conventions first, so the same suite
+  works in a Next.js SaaS, a SvelteKit site, or a Python API with no
+  per-project setup. Distinct from the scheduled fleet (kaanha-agents) and the
+  pre-push gate (kaanha-quality); now installed by the one-command install.
+
+
 ## marketplace 1.14.0 — 2026-07-18
 
 - **The fleet now covers every project automatically, and the dev hub is

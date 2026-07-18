@@ -34,7 +34,7 @@ Write-Host "[..] Registering the kaanha-stack marketplace"
 claude plugin marketplace add kaanhaAI/kaanha-claude-stack 2>$null
 # (already registered is fine - continue either way)
 
-$core = @("kaanha-quality", "kaanha-dev", "kaanha-agents", "kaanha-factory", "kaanha-3d-web", "kaanha-ugc", "watch-skill")
+$core = @("kaanha-quality", "kaanha-dev", "kaanha-agents", "kaanha-auto", "kaanha-factory", "kaanha-3d-web", "kaanha-ugc", "watch-skill")
 $curated = @("ponytail", "impeccable", "ui-ux-pro-max", "andrej-karpathy-skills", "mempalace", "claude-video")
 $list = if ($WithCurated) { $core + $curated } else { $core }
 

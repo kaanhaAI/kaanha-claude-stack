@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kaanha Tech's Claude Code stack: original quality-gate, dev-hub, video creator-analytics, premium-3D-web, and autonomous-squad plugins, plus curated pointers to the best open-source skills.",
-    "version": "1.14.0"
+    "version": "1.15.0"
   },
   "plugins": [
     {
@@ -24,6 +24,12 @@
       "name": "kaanha-agents",
       "source": "./plugins/kaanha-agents",
       "description": "Eleven autonomous squads that run on local schedules and file self-updating HTML reports: code-guardian, daily-ops, design-warden, growth-marketer, site-sentinel (uptime), repo-night-watch (dependency/advisory audit), code-reviewer (nightly diff), security-auditor (defensive, your own assets only), growth-scout (market research), overnight-builder (one backlog task per night on a builder/* branch, never pushed), flow-tester (Playwright e2e in real Chromium). Config-driven via a bundled fleet.json template; say 'set up the fleet' to bootstrap. Runs while the Claude app is open. See docs/agents.md before installing \u2014 it creates scheduled tasks, launches a browser, and makes local commits.",
+      "category": "automation"
+    },
+    {
+      "name": "kaanha-auto",
+      "source": "./plugins/kaanha-auto",
+      "description": "On-demand per-project agent suite: eight reviewers that fire while you work in any repo and adapt to it - code-reviewer, compliance-reviewer, architecture-reviewer, test-writer, doc-generator, claude-md-sync, agent-watcher, and deploy-monitor. Each reads the project's own CLAUDE.md, stack, and conventions first, so the same suite works in a Next.js SaaS, a SvelteKit site, or a Python API with no per-project setup. Distinct from the scheduled fleet and the pre-push gate.",
       "category": "automation"
     },
     {

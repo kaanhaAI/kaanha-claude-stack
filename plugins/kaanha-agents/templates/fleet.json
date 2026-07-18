@@ -1,5 +1,5 @@
 {
-  "$comment": "TEMPLATE — copy to <your-ops-repo>/dev/fleet.json during fleet bootstrap and fill in YOUR targets. Every kaanha-agents squad reads this file. Absolute paths are fine: this file describes ONE machine's fleet. Replace every <...> placeholder. Delete this comment when done.",
+  "$comment": "TEMPLATE — the fleet config lives in your ops home (KAANHA_HOME or ~/.claude/kaanha), which the kaanha-dev hub bootstraps on first run; fill in YOUR targets there. Every kaanha-agents squad reads this file. Absolute paths are fine: this file describes ONE machine's fleet. repos[] is auto-synced from the dev-hub registry. Replace every <...> placeholder.",
   "$ownership": "By listing a site or repo here you attest you OWN it or have written permission to test it. The security-auditor and site-sentinel squads probe these targets; they will skip any target whose ownership is unattested. Never add a third party's site.",
   "sites": [
     {

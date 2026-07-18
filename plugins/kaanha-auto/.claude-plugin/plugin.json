@@ -1,0 +1,11 @@
+{
+  "name": "kaanha-auto",
+  "description": "On-demand per-project agent suite: eight reviewers that fire WHILE you work in any repo and adapt to it - code-reviewer, compliance-reviewer, architecture-reviewer, test-writer, doc-generator, claude-md-sync, agent-watcher, and deploy-monitor. Each reads the current project's CLAUDE.md, stack, and conventions first, so the same suite works in a Next.js SaaS, a SvelteKit site, or a Python API without any per-project setup. Distinct from the scheduled fleet (kaanha-agents) and the pre-push gate (kaanha-quality).",
+  "version": "0.1.0",
+  "author": {
+    "name": "Kaanha Tech"
+  },
+  "license": "MIT",
+  "keywords": ["agents", "code-review", "compliance", "tests", "docs", "per-project"],
+  "skills": "./skills/"
+}
