@@ -1,5 +1,22 @@
 # Changelog
 
+## marketplace 1.12.0 — 2026-07-18
+
+- **kaanha-quality 1.8.0 — the state probe now catches plugin-version
+  drift.** A directory-source marketplace ships a version the moment
+  `plugin.json` changes, but the machine's installed record and
+  materialized cache do not move with it — so the app keeps loading the
+  old code while the release *looks* done. This gap had bitten twice
+  (kaanha-agents stuck at 1.0.0, kaanha-factory at 1.1.0), each caught
+  only by hand. The `state_probe.py` SessionStart hook now compares every
+  installed record against the version its repo declares and names any
+  that lag, with the fix (materialize the cache, repoint the record,
+  restart). Self-limiting: github-source plugins have no local
+  `plugin.json` to read, so they are skipped rather than false-flagged.
+  Still stdlib-only, fail-silent, and silent when everything is aligned.
+  Opt out with `KAANHA_STATE_PROBE=off`.
+
+
 ## marketplace 1.11.1 — 2026-07-16
 
 - **One-command install now delivers the whole stack.** The install-all

@@ -114,6 +114,62 @@ def package_jsons(root):
     return found
 
 
+def plugin_drift():
+    """Installed plugin versions that lag their source-of-truth repo.
+
+    A directory-source marketplace (installLocation is a real repo on disk)
+    ships a version bump the moment plugin.json changes - but the machine's
+    installed_plugins.json record and its materialized cache do NOT move with
+    it. That gap is invisible: the release feels done at 'pushed', while the
+    running app keeps loading the OLD version. It has bitten twice (kaanha-
+    agents stuck at 1.0.0, kaanha-factory at 1.1.0), each caught only by hand.
+
+    This is that recurring lesson turned into a check: compare every installed
+    record against the version its repo declares, and say so when they differ.
+    Machine-local and self-limiting - github-source plugins have no repo
+    plugin.json at these paths, so they are skipped, not false-flagged.
+
+    Opt out with the same KAANHA_STATE_PROBE=off switch.
+    """
+    home = os.path.join(os.path.expanduser("~"), ".claude", "plugins")
+    known = read_json(os.path.join(home, "known_marketplaces.json"))
+    installed = read_json(os.path.join(home, "installed_plugins.json"))
+    if not isinstance(known, dict) or not isinstance(installed, dict):
+        return []
+    plugins = installed.get("plugins")
+    if not isinstance(plugins, dict):
+        return []
+
+    drift = []
+    for key, records in plugins.items():
+        if not isinstance(records, list) or not records:
+            continue
+        rec = records[0]
+        installed_ver = rec.get("version") if isinstance(rec, dict) else None
+        if not installed_ver or "@" not in key:
+            continue
+        name, mp = key.rsplit("@", 1)
+        mp_entry = known.get(mp)
+        if not isinstance(mp_entry, dict):
+            continue
+        src = mp_entry.get("source")
+        if not (isinstance(src, dict) and src.get("source") == "directory"):
+            continue  # only a local repo is a source of truth we can read
+        loc = mp_entry.get("installLocation") or (src.get("path") if isinstance(src, dict) else None)
+        if not loc:
+            continue
+        repo_ver = None
+        for rel in ((("plugins", name)), ((name,))):
+            manifest = os.path.join(loc, *rel, ".claude-plugin", "plugin.json")
+            pj = read_json(manifest)
+            if isinstance(pj, dict) and pj.get("version"):
+                repo_ver = pj["version"]
+                break
+        if repo_ver and repo_ver != installed_ver:
+            drift.append((name, installed_ver, repo_ver))
+    return drift
+
+
 def probe(root):
     """Return (facts, tags). Facts are only things worth acting on."""
     facts, tags = [], set()
@@ -212,6 +268,19 @@ def main():
     if facts:
         lines.append("[kaanha-quality] This project's state (probed, not assumed):")
         lines += ["- " + f for f in facts]
+
+    try:
+        drift = plugin_drift()
+    except Exception:
+        drift = []
+    if drift:
+        lines.append(
+            "[kaanha-quality] Installed plugins lag their source repo - the "
+            "app is loading old versions. Materialize the cache + repoint "
+            "installed_plugins.json (then restart):"
+        )
+        for name, have, want in drift:
+            lines.append(f"- {name}: installed {have}, repo ships {want}")
 
     if lessons is not None:
         try:
