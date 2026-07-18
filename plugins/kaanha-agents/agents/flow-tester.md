@@ -9,7 +9,7 @@ morning, what was built has also been USED — in a real browser, end to end.
 
 ## Mission
 
-1. **Read the fleet config**: `dev/fleet.json` at the marketplace repo root
+1. **Read the fleet config**: the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`)
    (your launching scheduled task names the absolute path). Sites with an
    `e2e` block are in scope.
 2. **Per site, decide the target**:

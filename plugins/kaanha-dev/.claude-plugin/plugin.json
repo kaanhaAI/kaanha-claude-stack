@@ -1,7 +1,7 @@
 {
   "name": "kaanha-dev",
-  "description": "Centralized dev-server hub: one registry for every project's dev server with unique ports, a stdlib Python launcher (list/start/stop/status/logs from anywhere), auto-enrollment of new projects, and sync-generated per-project .claude/launch.json files.",
-  "version": "1.0.0",
+  "description": "Centralized dev-server hub: one registry in the ops home (KAANHA_HOME or ~/.claude/kaanha) for every project's dev server with unique ports, a stdlib launcher (list/start/stop/status/logs), sync generation of per-project .claude/launch.json files, and a SessionStart scan that auto-enrols new projects and keeps the 24/7 fleet covering every one of them.",
+  "version": "1.1.0",
   "author": {
     "name": "Kaanha Tech"
   },

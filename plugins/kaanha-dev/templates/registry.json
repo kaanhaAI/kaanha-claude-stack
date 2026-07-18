@@ -1,0 +1,9 @@
+{
+  "$comment": "Dev-hub registry - single source of truth for this machine's dev servers and (via the fleet sync) the 24/7 squad targets. Set projectsRoot to the folder that holds your repos, then run: python kaanha_dev.py scan. Ports are assigned uniquely so projects run side by side.",
+  "projectsRoot": null,
+  "projects": [],
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

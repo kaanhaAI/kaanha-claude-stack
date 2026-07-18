@@ -1,0 +1,24 @@
+{
+ "$comment": "Targets for the 24/7 agent fleet (kaanha-agents plugin). repos[] is auto-filled from the dev-hub registry on every scan - you never hand-edit it. Add sites[] entries for URL-based squads (site-sentinel, flow-tester, design-warden) that need routes/flows. reports[] is set to your ops home on first run. Replace the <...> placeholders in market when you want the growth squads on-target.",
+ "sites": [],
+ "repos": [],
+ "market": {
+  "business": "<what your business builds / does>",
+  "positioning": "<your one-line positioning>",
+  "buyer": "<who buys from you>",
+  "region": "<your market region>"
+ },
+ "backlog": "",
+ "reports": "",
+ "cloud_models": {
+  "$comment": "Optional: provider/model per Wave-2 cloud reasoning squad, used only when you run the squads as GitHub Actions. Local squads run in the Claude app and ignore this. Add the matching API-key secret per repo: GEMINI_API_KEY / OPENAI_API_KEY / XAI_API_KEY.",
+  "code-reviewer": { "provider": "openai", "model": "gpt-5.6-terra" },
+  "security-auditor": { "provider": "openai", "model": "gpt-5.6-terra" },
+  "code-guardian": { "provider": "gemini", "model": "gemini-3.1-pro" },
+  "design-warden": { "provider": "gemini", "model": "gemini-3.5-flash" },
+  "growth-scout": { "provider": "grok", "model": "grok-4.5" },
+  "growth-marketer": { "provider": "gemini", "model": "gemini-3.5-flash" },
+  "daily-ops": { "provider": "gemini", "model": "gemini-3.1-flash-lite" },
+  "overnight-builder": { "provider": "openai", "model": "gpt-5.6-terra" }
+ }
+}

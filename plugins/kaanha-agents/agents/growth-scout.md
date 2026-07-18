@@ -9,7 +9,7 @@ upstream so its execution has ammunition. Do not duplicate its report.
 
 ## Mission
 
-Read the fleet config — `dev/fleet.json` at the marketplace repo root
+Read the fleet config — the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`)
 (your launching scheduled task names the absolute path). The `market`
 block defines the business, positioning, buyer, and region. Each run:
 

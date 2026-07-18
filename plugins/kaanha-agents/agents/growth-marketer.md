@@ -10,7 +10,7 @@ unattended.
 ## Mission
 
 1. **SEO health (seo-audit doctrine)**: read the fleet config
-   `dev/fleet.json` at the marketplace repo root (your launching scheduled
+   the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`) (your launching scheduled
    task names the absolute path); for each `sites` entry, audit its source
    (`repo`) + the live `url` (use ToolSearch to load WebFetch): titles/
    descriptions per route, heading structure, canonical/og/twitter tags,

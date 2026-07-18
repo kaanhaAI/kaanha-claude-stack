@@ -1,5 +1,27 @@
 # Changelog
 
+## marketplace 1.14.0 — 2026-07-18
+
+- **The fleet now covers every project automatically, and the dev hub is
+  truly portable.** Two long-standing gaps closed together. (1) **Auto
+  coverage:** the 24/7 squads read a hand-maintained repo list, so a new
+  project got dev-hub enrollment but zero fleet coverage. The dev hub's
+  SessionStart scan now derives fleet targets from its registry — enrol a
+  project once and both the hub and every squad cover it, no hand editing.
+  (2) **Portability (kaanha-dev 1.1.0):** the launcher is bundled in the
+  plugin and resolves its config from an ops home (`KAANHA_HOME`, else
+  `~/.claude/kaanha`), bootstrapped from templates on first run — so a
+  one-command client install gets a working dev hub + auto fleet coverage
+  instead of a hook pointing at a path that only existed on the author's
+  machine. Fresh fleet reports are surfaced at SessionStart so they aren't
+  invisible from a project. (3) **kaanha-agents 1.3.0:** all 11 agent docs
+  + the routines skill are genericized off "the marketplace repo root" onto
+  the resolved ops home, and fleet setup now asks (MCQ) how each squad
+  should run — local (skips when the machine is off) vs cloud (GitHub
+  Actions, always on) — with storing tool approvals made a required step so
+  local squads stop firing-without-finishing.
+
+
 ## marketplace 1.13.0 — 2026-07-18
 
 - **kaanha-quality 1.9.0 — two new hard mandate rules: NEVER ASSUME, and

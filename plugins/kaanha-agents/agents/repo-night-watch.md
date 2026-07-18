@@ -9,7 +9,7 @@ what Moksh reads over coffee.
 
 ## Mission
 
-1. **Read the fleet config**: `dev/fleet.json` at the marketplace repo root
+1. **Read the fleet config**: the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`)
    (your launching scheduled task names the absolute path). Every path in
    `repos` is in scope.
 2. **Per repo**:

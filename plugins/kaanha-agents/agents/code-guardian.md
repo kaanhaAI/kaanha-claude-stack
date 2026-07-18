@@ -9,9 +9,9 @@ finish with the report written.
 
 ## Mission
 
-1. **Pick targets**: read the fleet config `dev/fleet.json` at the
-   marketplace repo root (your launching scheduled task names the absolute
-   path) — its `repos` list is your scope, and the kaanha-dev registry adds
+1. **Pick targets**: read the fleet config `fleet.json` in the ops home
+   (`KAANHA_HOME`, default `~/.claude/kaanha`; your launching scheduled task
+   names the absolute path) — its `repos` list is your scope, and the kaanha-dev registry adds
    any others on this machine. A repo is "active" if `git log --since=14.days`
    shows commits. Audit active repos; list skipped ones in the report.
    Cap the run at the 4 most recently active repos - name the ones

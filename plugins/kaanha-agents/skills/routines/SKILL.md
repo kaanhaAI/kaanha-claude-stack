@@ -11,7 +11,7 @@ scheduled task + one HTML report it owns.
 
 The original four squads are project-aware by convention; the **fleet
 seven** (added 2026-07-15) are fully config-driven: they read their targets
-from `dev/fleet.json` at the marketplace repo root (sites, repos, market,
+from the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`) — sites, repos, market,
 backlog, reports root — each machine's scheduled tasks carry the absolute
 path). Add a site or repo to `fleet.json` and every fleet agent covers it
 on its next run — nothing in the agents is specific to one website.
@@ -40,31 +40,51 @@ it and exercises real user flows in a real Chromium (Playwright): the
 builder's branch when one exists, otherwise main + production — Site
 Sentinel checks that pages RESPOND, Flow Tester checks that flows WORK.
 
-Reports root: `D:\Github\kaanha-marketplace\docs\reports\`
-Dashboard: `index.html` there links all reports.
+Reports root: the `reports` path named in `fleet.json` (on a fresh machine
+the dev hub bootstraps this to `<KAANHA_HOME>/reports`, default
+`~/.claude/kaanha/reports`).
+Dashboard: `index.html` in that folder links all reports.
 
 ## Bootstrapping the fleet on a new machine
 
-Installing this plugin ships the agents and the config **templates**
-(`templates/fleet.json`, `templates/builder-backlog.md` inside the plugin).
-Scheduled tasks and the filled-in config are machine-local and created
-once. When the user asks to "set up the fleet" (or the tasks are missing):
+The **ops home** holds this machine's `fleet.json` (+ `registry.json` from
+the dev hub). It is `KAANHA_HOME` if that env var is set, else
+`~/.claude/kaanha`. The kaanha-dev plugin **auto-creates it on first run**:
+its SessionStart scan bootstraps `fleet.json` from templates, points
+`reports` at the home, and — crucially — keeps `fleet.json → repos[]` in
+sync with the dev-hub registry, so **every project you enrol in the dev hub
+is covered by the fleet automatically**. You never hand-edit `repos[]`.
 
-1. Pick an ops directory the user controls (the reference layout uses the
-   kaanha-marketplace repo's `dev/`, but any path works). Copy
-   `templates/fleet.json` there as `fleet.json` and fill in the machine's
-   sites/repos/market/paths — replace every `<...>` placeholder. Copy
-   `templates/builder-backlog.md` to the path set as `backlog`. Create the
-   `reports` directory named in the config.
-2. Create one scheduled task per squad row in the table above (cron from
-   the Schedule column, staggered a few minutes apart if the scheduler
-   collides). Each task's prompt is one line: *"Launch the `<agent>` agent
-   from the kaanha-agents plugin and relay its run summary. It reads
-   `<absolute path>/fleet.json` for targets."* — the absolute path is the
-   ONLY machine-specific value, and it lives in the task prompt, never in
-   the agent files.
-3. Recommend one manual "Run now" per task so tool approvals get stored on
-   the task and future runs never stall on permission prompts.
+When the user asks to "set up the fleet" (or the scheduled tasks are missing):
+
+1. Make sure the dev hub knows your projects: set `projectsRoot` in
+   `<ops home>/registry.json` to the folder that holds your repos and run
+   `kaanha_dev.py scan` (the SessionStart hook does this too). That fills
+   `registry.json` and, via the fleet sync, `fleet.json → repos[]`. Then add
+   any `sites[]` entries (URL + routes + flows) for the URL-based squads and
+   fill in `market` — replace every `<...>` placeholder.
+2. **Ask the client how each squad should run** (MCQ) — this decides whether
+   they get output at all:
+   - **Local** (Claude app, flat subscription): a scheduled task fires the
+     agent in the app. Simplest, no keys — but it only runs **while the app is
+     open**, so a task scheduled for 02:00 is skipped if the machine is asleep
+     and fires late on next launch. Best for squads you can run in the daytime.
+   - **Cloud** (GitHub Actions): runs regardless of whether the machine is on;
+     needs the repo on a remote + the provider key (`GEMINI_API_KEY` /
+     `OPENAI_API_KEY` / `XAI_API_KEY`) per `fleet.json → cloud_models`.
+     Best for the nightly/critical squads (repo-night-watch, code-reviewer,
+     security-auditor). Stamp with `enroll_cloud.ps1`.
+   Default recommendation: nightly/critical → cloud, the rest → local.
+3. For **local** squads, create one scheduled task per chosen squad (cron from
+   the Schedule column, staggered a few minutes apart). Each task's prompt is
+   one line: *"Launch the `<agent>` agent from the kaanha-agents plugin and
+   relay its run summary. It reads `<absolute path>/fleet.json` for targets."*
+   — the absolute path is the ONLY machine-specific value, in the task prompt.
+4. **Required, not optional:** run each local task once manually ("Run now") so
+   its tool approvals are stored. Without this the unattended run stalls on the
+   first permission prompt and produces **no report** — the "fires but never
+   finishes" failure. A squad with a `lastRunAt` but no report file is almost
+   always an un-stored approval or a machine that slept mid-run.
 
 All eleven agents are path-free: they resolve every target through
 `fleet.json`. Nothing in `agents/` is specific to one machine or one site.

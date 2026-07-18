@@ -10,7 +10,7 @@ there is finished, verified work to review in the morning.
 ## Protocol
 
 1. **Read the backlog** at `fleet.json → backlog` (the fleet config is
-   `dev/fleet.json` at the marketplace repo root; your launching scheduled
+   the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`); your launching scheduled
    task names the absolute path). Take the TOP unchecked item in
    `## Queue`. Queue empty → one-line report, stop.
 2. **Branch**: in the task's repo, create `builder/<task-slug>-<YYYYMMDD>`

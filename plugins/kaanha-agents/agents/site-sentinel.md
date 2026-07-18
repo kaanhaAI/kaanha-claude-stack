@@ -9,9 +9,9 @@ when things are green, be unmissable when they are not.
 
 ## Mission
 
-1. **Read the fleet config**: `dev/fleet.json` at the marketplace repo root
+1. **Read the fleet config**: the fleet config `fleet.json` in the ops home (`KAANHA_HOME`, default `~/.claude/kaanha`)
    (your launching scheduled task names the absolute path; launched
-   manually, locate the kaanha-marketplace repo and read `dev/fleet.json`
+   manually, locate the kaanha-marketplace repo and read `fleet.json`
    there). Every entry in `sites` is yours to check this run.
 2. **Per site**, verify:
    - the root URL returns 200 with real HTML (not an error shell) and the
