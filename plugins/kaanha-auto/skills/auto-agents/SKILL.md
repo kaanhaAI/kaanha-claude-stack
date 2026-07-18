@@ -47,6 +47,26 @@ no per-project setup.
   label anything unverified as a hypothesis. agent-watcher exists to catch the
   confident-but-wrong finding, so run it when a finding will drive a change.
 
+## Auto-review at end of turn (on by default)
+
+Since 0.3.0 the suite fires **automatically** at a checkpoint, so you don't have
+to remember to invoke it. A `PostToolUse` hook logs which **code** files you edit
+each turn (docs/config are ignored); a `Stop` hook, when the turn ends, tells the
+session to run the reviewers relevant to what changed — always `code-reviewer`,
+plus `compliance-reviewer` if an auth/webhook/billing/privacy path was touched,
+plus `architecture-reviewer` if three or more files changed — apply any
+blocker-level fixes, and report a one-line verdict each, before stopping.
+
+Why a checkpoint and not per-edit: a hook cannot spawn a subagent, and reviewing
+after every keystroke is noisy and expensive. The checkpoint reviews the turn's
+changes once, targeted to what actually changed.
+
+Safety: it is **loop-safe** (the `stop_hook_active` guard means the reviewers'
+own fix-edits are never re-reviewed in the same turn) and **fail-open** (any hook
+error simply lets the turn end — it can never wedge a session). Turn it off per
+machine with `KAANHA_AUTO_REVIEW=off` in your settings `env` (the off switch is
+also printed in the checkpoint message itself).
+
 ## Relationship to the rest of the stack
 
 - kaanha-quality's **kaanha-verifier** is the adversarial pre-push check;

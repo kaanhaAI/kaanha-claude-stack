@@ -1,5 +1,22 @@
 # Changelog
 
+## marketplace 1.17.0 — 2026-07-18
+
+- **kaanha-auto 0.3.0 — the review now fires automatically at end of turn.**
+  A `PostToolUse` hook logs which code files you edit; a `Stop` hook, when the
+  turn ends, tells the session to run the reviewers relevant to what changed
+  (always code-reviewer; +compliance-reviewer if an auth/webhook/billing/privacy
+  path was touched; +architecture-reviewer if 3+ files changed), apply
+  blocker-level fixes, and report a verdict — before finishing. A hook cannot
+  spawn a subagent, so this is a checkpoint nudge, not per-keystroke firing:
+  targeted and debounced. **Loop-safe** via the `stop_hook_active` guard (the
+  reviewers' own fix-edits are never re-reviewed in the same turn) and
+  **fail-open** (any hook error just lets the turn end — it can never wedge a
+  session). Written in stdlib Python (no jq dependency). On by default; disable
+  per machine with `KAANHA_AUTO_REVIEW=off` (the off switch is printed in the
+  checkpoint message itself).
+
+
 ## marketplace 1.16.0 — 2026-07-18
 
 - **kaanha-auto 0.2.0 — the per-project agents now LEARN, not just adapt.**
